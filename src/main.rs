@@ -1,55 +1,32 @@
 #![feature(generic_const_exprs)]
 
-use std::io;
-use rand::Rng;
-use std::fmt;
-
-
 mod vec;
 mod sphere;
 mod ray;
-// // mod sphere;
-// use vec::Vec;
-// // use sphere::Sphere;
+mod shape;
+mod camera;
+mod canvas;
+mod color;
+mod material;
+mod shading;
+mod bbox;
+mod world;
 
-struct Person {
-    age: u8,
-    name: String
-}
+use crate::canvas::Canvas;
 
-impl Person {
-    pub fn new(age: u8, name: String) -> Person {
-        Person { age: age, name: name }
-    }
-}
-
-impl fmt::Display for Person {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "age: {},  name: {}", self.age, self.name)
-    }
-}
-
+const WIDTH: f64 = 1000.0 as f64;
+const HEIGHT: f64 = 1000.0 as f64;
+const NUM_SAMPLES: i8 = 10; // super-sampling
 
 pub fn main() {
 
-    let dustin: Person = Person::new (24, String::from("Dustin Burda"));
+    let mut canv: Canvas = Canvas::new(WIDTH, HEIGHT);
 
-    println!("{}", dustin);
-
-    println!("Guess the number!");
-
-    let secret_number = rand::thread_rng().gen_range(1..=100);
-
-    println!("The secret number is {secret_number}");
-
-    println!("Please input your guess!");
-
-    let mut guess = String::new();
-
-    io::stdin()
-    .read_line(&mut guess)
-    .expect("Failed to read line");
-
+    for x in 0..(HEIGHT as i64) {
+        for y in 0..(WIDTH as i64) {
+            println!("x: {}, y: {}", x, y)
+        } 
+    }
     
 }
 

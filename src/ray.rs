@@ -1,23 +1,23 @@
-use crate::vec::Vec;
+use crate::vec::Vec3;
 
-struct Ray {
-    orig: Vec<f64, 3>,
-    dir: Vec<f64, 3>
+pub struct Ray {
+    orig: Vec3,
+    dir: Vec3
 }
 
 impl Ray {
-    pub fn new(orig: Vec<f64, 3>, dir: Vec<f64, 3>) -> Ray {
+    pub fn new(orig: Vec3, dir: Vec3) -> Ray {
         Ray { 
             orig: orig, 
             dir: dir
         }
     }
 
-    pub fn set_orig(&mut self, orig: Vec<f64, 3>) -> () {
+    pub fn set_orig(&mut self, orig: Vec3) -> () {
         self.orig = orig.clone();
     }
 
-    pub fn set_dir(&mut self, dir: Vec<f64, 3>) -> () {
+    pub fn set_dir(&mut self, dir: Vec3) -> () {
         self.dir = dir.clone();
     }
 

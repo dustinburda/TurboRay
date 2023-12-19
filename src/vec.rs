@@ -2,40 +2,46 @@
 
 use std::ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
 
+pub type Vec2 = Vec<2>;
+pub type Vec3 = Vec<3>;
+pub type Vec4 = Vec<4>;
+
+// TODO: put this in its own module
+
 #[derive(Copy, Clone)]
-pub struct Vec<T, const N: usize> 
-    where [T; N]: Sized,
+pub struct Vec<const N: usize> 
+    where [f64; N]: Sized,
 {
-    data: [T; N]
+    data: [f64; N]
 }
 
-impl<T, const N: usize> Vec<T, N> {
-    pub fn new(vec_data: [T; N]) -> Self {
+impl<const N: usize> Vec<N> {
+    pub fn new(vec_data: [f64; N]) -> Self {
         Vec { 
             data: vec_data
         }
     }
 }
 
-impl<T, const N: usize> Index<usize> for Vec<T, N> {
-    type Output = T;
+impl<const N: usize> Index<usize> for Vec<N> {
+    type Output = f64;
 
-    fn index(&self, index: usize) -> &T {
+    fn index(&self, index: usize) -> &f64 {
         return &self.data[index];
     } 
 }
 
-impl<T, const N: usize> IndexMut<usize> for Vec<T, N> {
-    fn index_mut(&mut self, index: usize) -> &mut T {
+impl<const N: usize> IndexMut<usize> for Vec<N> {
+    fn index_mut(&mut self, index: usize) -> &mut f64 {
         return &mut self.data[index];
     }
 }
 
-impl<T: std::ops::Add<Output = T> + Clone + Copy + Default, const N: usize> Add for Vec<T, N> {
-    type Output = Vec<T, N>;
+impl<const N: usize> Add for Vec<N> {
+    type Output = Vec<N>;
 
-    fn add(self, other: Vec<T, N>) -> Vec<T, N> {
-        let mut vec_data: [T; N] = [T::default(); N];
+    fn add(self, other: Vec<N>) -> Vec<N> {
+        let mut vec_data: [f64; N] = [0.0 as f64; N];
 
         for i in 0..N {
             vec_data[i] = self[i] + other[i];
@@ -45,9 +51,9 @@ impl<T: std::ops::Add<Output = T> + Clone + Copy + Default, const N: usize> Add 
     }
 }
 
-impl<T: Clone + Copy + Default + std::ops::Add<Output = T>, const N: usize> AddAssign for Vec<T, N> {
-    fn add_assign(&mut self, other: Vec<T, N>) -> () {
-        let mut vec_data: [T; N] = [T::default(); N];
+impl<const N: usize> AddAssign for Vec<N> {
+    fn add_assign(&mut self, other: Vec<N>) -> () {
+        let mut vec_data: [f64; N] = [0.0 as f64; N];
         
         for i in 0..N {
             vec_data[i] = self[i] + other[i];
@@ -58,11 +64,11 @@ impl<T: Clone + Copy + Default + std::ops::Add<Output = T>, const N: usize> AddA
     }
 }
 
-impl<T: Clone + Copy + Default + std::ops::Sub<Output = T>, const N: usize> Sub for Vec<T, N> {
-    type Output = Vec<T, N>;
+impl<const N: usize> Sub for Vec<N> {
+    type Output = Vec<N>;
     
-    fn sub(self, other: Vec<T, N>) -> Vec<T, N> {
-        let mut vec_data: [T; N] = [T::default(); N];
+    fn sub(self, other: Vec<N>) -> Vec<N> {
+        let mut vec_data: [f64; N] = [0.0 as f64; N];
 
         for i in 0..N {
             vec_data[i] = self[i] - other[i];
@@ -72,42 +78,77 @@ impl<T: Clone + Copy + Default + std::ops::Sub<Output = T>, const N: usize> Sub 
     }
 } 
 
-impl<T: Copy + Clone + Default + std::ops::Sub<Output = T>, const N: usize> SubAssign for Vec<T, N> {
-    fn sub_assign(&mut self, other: Vec<T, N>) {
-        let mut vec_data: [T; N] = [T::default(); N];
+impl<const N: usize> SubAssign for Vec<N> {
+    fn sub_assign(&mut self, other: Vec<N>) {
+        let mut vec_data: [f64; N] = [0.0 as f64; N];
 
         for i in 0..N {
             vec_data[i] = self[i] - other[i]
         }
 
-        Vec::new(vec_data);
+        *self = Vec::new(vec_data);
     }
 }
 
-// impl<T: Clone + Copy + Default + std::ops::Mul<Output = T, const N: usize> Mul<T> for Vec<T,N> {
+// TODO: Mul, MulAssign, Div, DivAssign
+// TODO: Check commutatitivity
 
-// }
+// // impl<T: Clone + Copy + Default + std::ops::Mul<Output = T, const N: usize> Mul<T> for Vec<T,N> {
+
+// // }
 
 
-impl<T:Copy + Clone + Default, const N: usize> Vec<T,N> {
-    pub fn magnitude(&self) -> T {
-        T::default()
+impl<const N: usize> Vec<N> {
+    pub fn magnitude(&self) -> f64 {
+        let mut mag: f64 = 0.0 as f64;
+
+        for i in 0..N {
+            mag += self[i] * self[i];
+        }
+
+        mag = f64::sqrt(mag);
+
+        mag
     }
 
-    pub fn normal(&self) -> Vec<T, N> {
-        let mut vec_data: [T;N] = [T::default(); N];
+    pub fn normal(&self) -> Vec<N> {
+        let mut vec_data: [f64;N] = self.data;
+
+        let mag: f64 = self.magnitude();
+        for i in 0..N {
+            vec_data[i] /= mag;
+        }
 
         Vec::new(vec_data)
     }
 
-    pub fn dot(&self, other: Vec<T,N>) -> T {
-        T::default()
-    }
+    pub fn homogenize(&self) -> Vec<{N+1}> {
+        let mut vec_data: [f64; {N+1}] = [0.0 as f64; {N+1}];
 
-    pub fn homogenize(&self) -> Vec<T, {N+1}> {
-        let mut vec_data: [T; {N+1}] = [T::default(); {N+1}];
+        for i in 0..N {
+            vec_data[i] = self[i];
+        }
+        vec_data[N] = 1.0 as f64;
 
         Vec::new(vec_data)
     }
 }
 
+
+pub fn dot<const N: usize>(v1: Vec<N>, v2: Vec<N>) -> f64 {
+    let mut dot_product = 0.0 as f64;
+
+    for i in 0..N {
+        dot_product += v1[i] * v2[i];
+    }
+
+    dot_product
+}
+
+pub fn cross(v1: Vec<3>, v2: Vec<3>) -> Vec<3> {
+    let mut vec_data: [f64; 3] = [0.0 as f64; 3];
+
+    // TODO: cross
+
+    Vec::new(vec_data)
+}

@@ -1,6 +1,7 @@
-use crate::vec::Vec;
+use crate::vec::Vec3;
+use crate::shape::Shape;
 
 pub struct Sphere {
     radius: f64,
-    center: Vec<f64, 3>
+    center: Vec3
 }
