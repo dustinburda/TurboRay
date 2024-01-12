@@ -66,7 +66,7 @@ mod tests {
     use crate::Color;
 
     #[test]
-    fn r_g_checkerboard() {
+    fn rg_checkerboard() {
         let WIDTH: i64 = 7 as i64;
         let HEIGHT: i64 = 7 as i64;
 
@@ -89,17 +89,19 @@ mod tests {
         canv.flush_ppm(String::from("checkerboard.ppm"));
     }
 
-    fn stripes() {
+    #[test]
+    fn rb_vertical_stripes() {
+        //TODO: redo this test
         let WIDTH: i64 = 10 as i64;
         let HEIGHT: i64 = 15 as i64;
 
         let mut canv = Canvas::new(WIDTH, HEIGHT);
 
-        for x in 0..(HEIGHT as i64) {
-            for y in 0..(WIDTH as i64) {
+        for x in 0..(WIDTH as i64) {
+            for y in 0..(HEIGHT as i64) {
                 let mut color: Color;
 
-                if (x + y) % 2 == 0 {
+                if x % 2 == 0 {
                     color = Color::new(255.0, 0.0, 0.0)        
                 } else {
                     color = Color::new(0.0, 255.0, 0.0)
@@ -108,6 +110,31 @@ mod tests {
                 canv.set_pixel_at(x, y, color);
             } 
         }
-
+        canv.flush_ppm(String::from("vertical.ppm"));
     }
+
+    #[test]
+    fn gb_horizontal_stripes() {
+        //TODO: redo this test
+        let WIDTH: i64 = 15 as i64;
+        let HEIGHT: i64 = 10 as i64;
+
+        let mut canv = Canvas::new(WIDTH, HEIGHT);
+
+        for x in 0..(WIDTH as i64) {
+            for y in 0..(HEIGHT as i64) {
+                let mut color: Color;
+
+                if y % 2 == 0 {
+                    color = Color::new(255.0, 0.0, 0.0)        
+                } else {
+                    color = Color::new(0.0, 255.0, 0.0)
+                }
+
+                canv.set_pixel_at(x, y, color);
+            } 
+        }
+        canv.flush_ppm(String::from("horizontal.ppm"));
+    }
+
 }

@@ -24,8 +24,8 @@ pub fn main() {
 
     let mut canv = Canvas::new(WIDTH, HEIGHT);
 
-    for x in 0..(HEIGHT as i64) {
-        for y in 0..(WIDTH as i64) {
+    for x in 0..(WIDTH as i64) {
+        for y in 0..(HEIGHT as i64) {
             let mut color: Color;
 
             if (x + y) % 2 == 0 {
