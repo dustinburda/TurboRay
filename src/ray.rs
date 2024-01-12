@@ -21,8 +21,15 @@ impl Ray {
         self.dir = dir.clone();
     }
 
-    // pub fn at(&self, t: f64) -> Vec3<f64> {
-    //     self.orig + t * self.dir;
-    // }
+    pub fn at(&self, t: f64) -> Vec3 {
+        self.orig + t * self.dir
+    }
  }
+
+#[cfg(test)]
+mod tests {
+    use crate::vec::Vec3;
+
+    
+}
 
