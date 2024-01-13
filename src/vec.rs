@@ -1,6 +1,8 @@
 #![feature(generic_const_exprs)]
 
 use std::ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
+use num_traits::abs;
+
 
 pub type Vec2 = Vec<2>;
 pub type Vec3 = Vec<3>;
@@ -8,12 +10,33 @@ pub type Vec4 = Vec<4>;
 
 // TODO: put this in its own module
 
-#[derive(Copy, Clone)]
+const EPSILON: f64 = 0.00001;
+
+fn float_equal(x: f64, y: f64) -> bool {
+    return abs(x - y) < EPSILON;
+}
+
+
+#[derive(Copy, Clone, Debug)]
 pub struct Vec<const N: usize> 
     where [f64; N]: Sized,
 {
     data: [f64; N]
 }
+
+
+impl<const N: usize> PartialEq for Vec<N> {
+    fn eq(&self, other: &Self) -> bool {
+        for i in 0..N {
+            if self[i] != other[i] {
+                return false;
+            }
+        }
+        true
+    }
+}
+
+impl<const N: usize> Eq for Vec<N> {}
 
 impl<const N: usize> Vec<N> {
     pub fn new(vec_data: [f64; N]) -> Self {
@@ -214,15 +237,7 @@ pub fn cross(v1: Vec<3>, v2: Vec<3>) -> Vec<3> {
 mod tests {
 
     use crate::vec::Vec;
-    use crate::vec::dot;
-    use crate::vec::cross;
-    use num_traits::{abs, float};
-
-    const EPSILON: f64 = 0.00001;
-
-    fn float_equal(x: f64, y: f64) -> bool {
-        return abs(x - y) < EPSILON;
-    }
+    use crate::vec::{dot, cross, float_equal};
     
     #[test]
     pub fn index_test() {
