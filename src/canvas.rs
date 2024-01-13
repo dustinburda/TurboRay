@@ -63,7 +63,7 @@ impl Canvas {
 mod tests {
 
     use crate::Canvas;
-    use crate::Color;
+    use crate::color::Color;
 
     #[test]
     fn rg_checkerboard() {
