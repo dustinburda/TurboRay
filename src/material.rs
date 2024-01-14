@@ -1,5 +1,7 @@
+use crate::color::Color;
+
 pub enum Material {
-    Matte,
+    Matte(Color),
     Plasic,
     Metal,
     Mirror,

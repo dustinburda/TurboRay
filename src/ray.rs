@@ -18,8 +18,16 @@ impl Ray {
         self.orig = orig;
     }
 
+    pub fn orig(&self) -> Vec3 {
+        self.orig
+    }
+
     pub fn set_dir(&mut self, dir: Vec3) -> () {
         self.dir = dir;
+    }
+
+    pub fn dir(&self) -> Vec3 {
+        self.dir
     }
 
     pub fn at(&self, t: f64) -> Vec3 {

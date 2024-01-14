@@ -41,19 +41,21 @@ impl Camera for ProjCamera {
     }
 }
 
-struct OrthCamera {
+pub struct OrthCamera {
     viewport_u: Vec3,
     viewport_v: Vec3 
 }
 
 impl OrthCamera {
     pub fn new() -> OrthCamera {
+        let aspect_ratio: f64 = WIDTH as f64 / HEIGHT as f64;
 
         OrthCamera {
+            
 
             //TODO 
-            viewport_u: Vec::new([0.0, 0.0, 0.0]),
-            viewport_v: Vec::new([0.0, 0.0, 0.0])
+            viewport_u: Vec::new([2.0 * aspect_ratio / (WIDTH as f64), 0.0, 0.0]),
+            viewport_v: Vec::new([0.0, - 2.0 / (HEIGHT as f64), 0.0])
         }
     }
 
@@ -80,9 +82,5 @@ impl Camera for OrthCamera {
 
 #[cfg(test)]
 mod tests {
-
-    #[test]
-    pub fn dummy_test() {
-        assert_eq!(1 + 2, 3);
-    }
+    
 }
