@@ -35,7 +35,7 @@ impl Camera for ProjCamera {
         let orig = Vec::new([0.0, 0.0, -self.focal_distance]);
         
         let upper_left_corner = Vec::new([-1.0 * aspect_ratio, 1.0 , 0.0]);
-        let dir = upper_left_corner + (0.5 * self.viewport_u + 0.5 * self.viewport_v) + x * self.viewport_u + y * self.viewport_v;
+        let dir = upper_left_corner + (0.5 * self.viewport_u + 0.5 * self.viewport_v) + x * self.viewport_u + y * self.viewport_v - orig;
 
         Ray::new(orig, dir)
     }
@@ -75,12 +75,4 @@ impl Camera for OrthCamera {
 
         Ray::new(orig, Vec::new([0.0, 0.0, 1.0]))
     }
-}
-
-
-
-
-#[cfg(test)]
-mod tests {
-    
 }
