@@ -8,7 +8,8 @@ pub type Vec2 = Vec<2>;
 pub type Vec3 = Vec<3>;
 pub type Vec4 = Vec<4>;
 
-// TODO: put this in its own module
+// TODO: put this in a math module
+// TODO: homogenize normal
 
 const EPSILON: f64 = 0.00001;
 

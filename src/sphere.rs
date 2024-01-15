@@ -45,22 +45,26 @@ impl Shape for Sphere {
         let t1: f64 = (-b - f64::sqrt(discriminant)) / (2.0 * a);
         let t2: f64 = (-b + f64::sqrt(discriminant)) / (2.0 * a);
 
-        shade_context.hit_time = t1;
+        let mut hit_time: f64 = 0.0;
+
+        hit_time = t1;
         if t1 < t_near || t1 > t_far {
-            shade_context.hit_time = t2; 
+            hit_time = t2; 
             if t2 < t_near || t2 > t_far {
                 return false;
             }
         }
         
-        let hit_point: Vec3 = r.at(shade_context.hit_time);
-        
+        let hit_point: Vec3 = r.at(hit_time);
+
+        shade_context.hit_time = hit_time;
         shade_context.normal = self.normal_at(&hit_point);
         shade_context.material = self.material_at(&hit_point);
 
         true
     }
 
+    // TODO: flip normal if dot product with incident ray is positive
     fn normal_at(&self, hit_point: &Vec3) -> Vec3 {
         *hit_point - self.center
     }

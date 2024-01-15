@@ -23,7 +23,7 @@ impl ShadeContext {
         ShadeContext {
             normal: Vec::new([0.0, 0.0, 0.0]),
             material: None,
-            hit_time: 0.0
+            hit_time: f64::MAX
         }
     }
 }
