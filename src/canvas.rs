@@ -47,11 +47,14 @@ impl Canvas {
 
         opened_file.write(ppm_header.as_bytes()).expect("Failed to write header!");
 
+        let mut file_body: String = String::default();
+        // TODO: write color as a srt
         for color in self.color_buffer.iter() {
             let color_str: String = format!("{} {} {}\n", color.r(), color.g(), color.b());
-
-            opened_file.write(color_str.as_bytes()).expect("Failed to write color!");
+            
+            file_body.push_str(&color_str);
         }
+        opened_file.write(file_body.as_bytes()).expect("Failed to write color!");
 
         true 
     }

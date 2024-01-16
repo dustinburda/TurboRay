@@ -7,7 +7,6 @@ pub type Mat33 = Matrix<3,3>;
 
 // @param: R is the number of rows
 // @param: C is the number of columns
-
 struct Matrix<const R: usize, const C: usize> {
     mat_data: [[f64;C]; R]
 }
@@ -106,6 +105,11 @@ impl<const R: usize, const C: usize> SubAssign for Matrix<R,C> {
 }
 
 
+// Matrix-Matrix, Matrix-Vector, Matrix-Scalar[Commutative] multiplication
+
+// Matrix-Scalar division
+
+
 impl<const R: usize, const C: usize> Matrix<R, C> {
     pub fn det(&self) -> f64 {
         todo!()
@@ -120,9 +124,7 @@ impl<const R: usize, const C: usize> Matrix<R, C> {
     }
 }
 
-// Matrix-Matrix, Matrix-Vector, Matrix-Scalar[Commutative] multiplication
 
-// Matrix-Scalar division
 
 #[cfg(test)]
 mod tests {
