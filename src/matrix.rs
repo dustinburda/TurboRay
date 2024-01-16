@@ -2,14 +2,19 @@
 
 use std::{ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign}, default};
 
+use crate::vec::Vec;
+
 pub type Mat44 = Matrix<4,4>;
 pub type Mat33 = Matrix<3,3>;
 
 // @param: R is the number of rows
 // @param: C is the number of columns
+#[derive(Copy, Clone)]
 struct Matrix<const R: usize, const C: usize> {
     mat_data: [[f64;C]; R]
 }
+
+// implement Copy for Matrix
 
 impl<const R: usize, const C: usize> Default for Matrix<R,C> {
     fn default() -> Matrix<R,C> {
@@ -18,12 +23,6 @@ impl<const R: usize, const C: usize> Default for Matrix<R,C> {
         }
     }
 }
-
-/* 
-- Implement Determinant
-- Implement Transpose
-- Implement Inverse
-*/
 
 impl<const R: usize, const C: usize> Matrix<R, C> {
     pub fn new(mat_data: [[f64;C]; R]) -> Matrix<R,C> {
@@ -104,15 +103,141 @@ impl<const R: usize, const C: usize> SubAssign for Matrix<R,C> {
     }
 }
 
+impl<const R: usize, const C: usize, const R2: usize> Mul<Matrix<C,R2>> for Matrix<R,C> {
+    type Output = Matrix<R, R2>;
 
-// Matrix-Matrix, Matrix-Vector, Matrix-Scalar[Commutative] multiplication
+    fn mul(self, other: Matrix<C, R2>) -> Matrix<R,R2> {
+        let mut mul_mat = Matrix::default();
 
-// Matrix-Scalar division
+        for i in 0..R {
+            for j in 0..R2 {
+                let mut entry: f64 = 0.0;
+                for k in 0..C {
+                    entry += self[i][k] * other[j][k];
+                }
+                mul_mat[i][j] = entry;
+            }
+        }
 
+        mul_mat
+    }
+}
+
+impl<const R: usize, const C: usize> Mul<Vec<C>> for Matrix<R,C> {
+    type Output = Vec<R>;
+
+    fn mul(self, other: Vec<C>) -> Vec<R> {
+        let mut mul_vec = Vec::new([0.0; R]);
+
+        for i in 0..R {
+            let mut entry: f64 = 0.0;
+            for j in 0..C {
+                entry += self[i][j] * other[j];
+            }
+            mul_vec[i] = entry;
+        }
+
+        mul_vec
+    }
+}
+
+impl<const R: usize, const C: usize> Mul<f64> for Matrix<R,C> {
+    type Output = Matrix<R,C>;
+
+    fn mul(self, other: f64) -> Matrix<R,C> {
+        let mut mat_mul = Matrix::default();
+
+        for i in 0..R {
+            for j in 0..C {
+                mat_mul[i][j] = self[i][j] * other; 
+            }
+        }
+
+        mat_mul
+    }
+}
+
+impl<const R: usize, const C: usize> Mul<Matrix<R,C>> for f64 {
+    type Output = Matrix<R,C>;
+
+    fn mul(self, other: Matrix<R,C>) -> Matrix<R,C> {
+        let mut mat_mul = Matrix::default();
+
+        for i in 0..R {
+            for j in 0..C {
+                mat_mul[i][j] = self * other[i][j]; 
+            }
+        }
+
+        mat_mul
+    }
+}
+
+impl<const R: usize, const C: usize> MulAssign<f64> for Matrix<R,C> {
+    fn mul_assign(&mut self, other: f64) {
+
+        for i in 0..R {
+            for j in 0..C {
+                self[i][j] *= other;
+            }
+        }
+    }
+}
+
+impl<const R: usize, const C: usize> Div<f64> for Matrix<R,C> {
+    type Output = Matrix<R,C>;
+    
+    fn div(self, other: f64) -> Matrix<R,C> {
+        let mut div_mat = Matrix::default();
+
+        for i in 0..R {
+            for j in 0..C {
+                div_mat[i][j] = self[i][j] / other;
+            }
+        }
+
+        div_mat
+    }
+}
+
+impl<const R: usize, const C: usize> DivAssign<f64> for Matrix<R,C> {
+    fn div_assign(&mut self, other: f64) {
+        for i in 0..R {
+            for j in 0..C {
+                self[i][j] /= other;
+            }
+        }
+    }
+}
 
 impl<const R: usize, const C: usize> Matrix<R, C> {
     pub fn det(&self) -> f64 {
-        todo!()
+        if(R != C) {
+            panic!("Can't take determinant of non-square matrix!")
+        }
+
+        let mut mat_copy = (*self).clone();
+        let mut determinant: f64 = 0.0;
+
+        // pick a row
+        for i in 0..C {
+            // for each row below it
+            for j in i+1..R {
+                let ratio = mat_copy[j][j] / mat_copy[i][j];
+
+                for k in j..R {
+                    mat_copy[j][k] -= ratio * mat_copy[i][k];
+                }
+                // subtract out 
+            }
+        }
+
+        for i in 0..R {
+            determinant *= mat_copy[i][i];
+        }
+
+
+        determinant
     }
 
     pub fn inv(&self) -> Matrix<R,C> {
@@ -120,7 +245,15 @@ impl<const R: usize, const C: usize> Matrix<R, C> {
     }
 
     pub fn t(&self) -> Matrix<R,C> {
-        todo!()
+        let mut t_mat = Matrix::default();  
+
+        for i in 0..R {
+            for j in 0..C {
+                t_mat[i][j] = self[j][i];
+            }
+        }
+
+        t_mat
     }
 }
 
