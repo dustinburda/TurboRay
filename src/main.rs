@@ -12,6 +12,7 @@ mod shading;
 mod bbox;
 mod world;
 mod matrix;
+mod transformations;
 mod scenes;
 
 use shape::Shape;
