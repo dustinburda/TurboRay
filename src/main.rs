@@ -11,6 +11,7 @@ mod material;
 mod shading;
 mod bbox;
 mod world;
+mod matrix;
 
 
 use shape::Shape;
@@ -26,8 +27,8 @@ use std::rc::Rc;
 use crate::material::ShadeContext;
 use crate::world::{trace};
 
-const WIDTH: i64 = 1920 as i64;
-const HEIGHT: i64 = 1080 as i64;
+const WIDTH: i64 = 2000 as i64;
+const HEIGHT: i64 = 1000 as i64;
 const NUM_SAMPLES: i8 = 10; // super-sampling
 
 pub fn main() {
@@ -43,7 +44,7 @@ pub fn main() {
     let sphere2: Box<dyn Shape> = Box::new(Sphere::new(1.0, Vec::new([1.0, 0.0, 1.0]), Some(material2)));
 
     let material3 = Rc::new(Material::Matte(Color::new(255.0, 0.0, 255.0)));
-    let sphere3: Box<dyn Shape> = Box::new(Sphere::new(1.0, Vec::new([6.0, 0.0, 5.0]), Some(material3)));
+    let sphere3: Box<dyn Shape> = Box::new(Sphere::new(1.0, Vec::new([6.5, 0.0, 5.0]), Some(material3)));
 
     // let world: std::vec::Vec<Box<dyn Shape>> = vec![sphere1, sphere2, sphere3];
 
@@ -62,6 +63,7 @@ pub fn main() {
         } 
     }
 
+    println!("\nFlushing to disk....\n");
     canv.flush_ppm(String::from("image.ppm"));
     
 }
