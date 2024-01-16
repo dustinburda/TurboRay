@@ -26,8 +26,8 @@ use std::rc::Rc;
 use crate::material::ShadeContext;
 use crate::world::{trace};
 
-const WIDTH: i64 = 1000 as i64;
-const HEIGHT: i64 = 500 as i64;
+const WIDTH: i64 = 1920 as i64;
+const HEIGHT: i64 = 1080 as i64;
 const NUM_SAMPLES: i8 = 10; // super-sampling
 
 pub fn main() {
@@ -53,6 +53,7 @@ pub fn main() {
     world.add_shape(sphere3);
 
     for y in 0..(HEIGHT as i64) {
+        println!("Number of scanlines remaining: {:?}", HEIGHT - 1 - y);
         for x in 0..(WIDTH as i64) {
 
             let r = cam.cast_ray(x as f64, y as f64);

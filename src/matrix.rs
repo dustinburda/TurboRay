@@ -2,6 +2,8 @@
 
 use std::ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
 
+pub type Mat44 = Matrix<4,4>;
+pub type Mat33 = Matrix<3,3>;
 
 // @param: R is the number of rows
 // @param: C is the number of columns
@@ -17,5 +19,5 @@ struct Matrix<const R: usize, const C: usize> {
 */
 
 impl<const R: usize, const C: usize> Matrix<R, C> {
-
+    pub fn new<R,C>() 
 }

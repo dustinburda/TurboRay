@@ -5,11 +5,11 @@ use std::option::Option;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Material {
-    Matte(Color),
-    Plasic,
-    Metal,
-    Mirror,
-    Glass
+    Matte(Color), //Diffuse
+    Plastic(f64, f64), //Blinn-Phong, specular highlights
+    Metal (Color), //Reflect + Tint
+    Mirror, // Reflect
+    Glass // Reflect + Refract
 }
 
 pub struct ShadeContext {
@@ -26,4 +26,8 @@ impl ShadeContext {
             hit_time: f64::MAX
         }
     }
+}
+
+pub fn diffuse_shading() -> Color {
+    Color::new(0.0, 0.0, 0.0)
 }

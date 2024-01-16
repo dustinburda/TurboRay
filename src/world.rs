@@ -38,7 +38,7 @@ pub fn trace(r: &Ray, world: &World) -> Color {
     let mut color: Color = Color::new(0.0, 0.0, 0.0);
 
     if hit {
-        // println!("Sphere was hit by ray: {:?}", r);
+        
         let material = (*shade_context.material.unwrap()).clone();
 
         color = match material {
