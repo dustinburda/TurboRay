@@ -50,7 +50,7 @@ impl Canvas {
         let mut file_body: String = String::default();
         // TODO: write color as a srt
         for color in self.color_buffer.iter() {
-            let color_str: String = format!("{} {} {}\n", color.r(), color.g(), color.b());
+            let color_str: String = format!("{} {} {}\n", color.r() as u8, color.g() as u8, color.b() as u8);
             
             file_body.push_str(&color_str);
         }

@@ -1,7 +1,14 @@
 use crate::{ray::Ray, vec::{Vec3, Vec}, WIDTH, HEIGHT};
+use rand::Rng;
+
+
+pub enum AliasMode {
+    AntiAliasOn,
+    AntiAliasOff
+}
 
 pub trait Camera {
-    fn cast_ray(&self, x: f64, y: f64) -> Ray;
+    fn cast_ray(&self, x: f64, y: f64, mode: AliasMode) -> Ray;
 }
 
 pub struct ProjCamera {
@@ -29,14 +36,19 @@ impl ProjCamera {
 }
 
 impl Camera for ProjCamera {
-    fn cast_ray(&self, x: f64, y: f64) -> Ray {
+    fn cast_ray(&self, x: f64, y: f64, mode: AliasMode) -> Ray {
         let aspect_ratio = (WIDTH as f64) / (HEIGHT as f64);
 
         let orig = Vec::new([0.0, 0.0, -self.focal_distance]);
         
         let upper_left_corner = Vec::new([-1.0 * aspect_ratio, 1.0 , 0.0]);
-        let dir = upper_left_corner + (0.5 * self.viewport_u + 0.5 * self.viewport_v) + x * self.viewport_u + y * self.viewport_v - orig;
-
+        let dir =  match mode {
+            AliasMode::AntiAliasOff => upper_left_corner + (0.5 * self.viewport_u + 0.5 * self.viewport_v) + x * self.viewport_u + y * self.viewport_v - orig,
+            AliasMode::AntiAliasOn => upper_left_corner 
+                                        + ((rand::thread_rng().gen_range(0.0..1.0)) * self.viewport_u + (rand::thread_rng().gen_range(0.0..1.0)) * self.viewport_v) 
+                                        + x * self.viewport_u + y * self.viewport_v - orig
+        };
+    
         Ray::new(orig, dir)
     }
 }
@@ -66,7 +78,7 @@ impl OrthCamera {
 }
 
 impl Camera for OrthCamera {
-    fn cast_ray(&self, x: f64, y: f64) -> Ray {
+    fn cast_ray(&self, x: f64, y: f64, mode: AliasMode) -> Ray {
         let aspect_ratio: f64 = WIDTH as f64 / HEIGHT as f64;
 
         let upper_left_corner = Vec::new([-1.0 * aspect_ratio, 1.0, 0.0]);

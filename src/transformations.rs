@@ -44,3 +44,12 @@ pub fn shear(x_z: f64, x_y: f64, y_x: f64, y_z: f64, z_x: f64, z_y: f64) -> Mat4
                            [0.0, 0.0, 0.0, 1.0]])
 }
 
+
+#[cfg(test)]
+mod tests {
+    
+    #[test]
+    fn test1() {
+        assert_eq!(1,1);
+    }
+}
