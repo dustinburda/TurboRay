@@ -241,18 +241,99 @@ impl<const R: usize, const C: usize> Matrix<R, C> {
         determinant
     }
 
+    pub fn identity() -> Matrix<R,C> {
+        if(R != C) {
+            panic!("There does not a exist a non-square identity matrix!"); 
+        }
+
+        let mut mat_data = [[0.0; C]; R];
+
+        for i in 0..R {
+            mat_data[i][i] = 1.0;
+        }
+
+        Matrix::new(mat_data)    
+    }
+
     pub fn inv(&self) -> Matrix<R,C> {
-        // if self.det() == 0.0 {
-        //     panic!("Matrix is not invertible!");
-        // }
+        if(R != C) {
+            panic!("Can not take inverse of non-square matrix!");
+        }
 
-        // let augmented: Matrix<R,{R+1}>;
+        let mut m = (*self).clone();
+        let mut inv: Matrix<R,C> = Matrix::identity();
+
+    for column in 0..R {
+        
+        // Step 1, pick a pivot
+        if m[column][column] == 0.0 {
+            let mut alt_row = column;
+
+            for row in 0..R {
+                if f64::abs(m[alt_row][column]) > f64::abs(m[row][column]) {
+                    alt_row = row;
+                }
+            }
+
+            if alt_row == column {
+                panic!("Matrix not invertible!");
+            }
+            else {
+                // std::mem::swap(&mut m[alt_row], &mut m[column]);
+                
+                let temp1 = m[alt_row].clone();
+                m[alt_row] = m[column].clone();
+                m[column] = temp1;
 
 
-        // let mat_ret = Matrix::default();
+                // std::mem::swap(&mut inv[alt_row], &mut inv[column]);
 
-        // mat_ret
-        todo!()
+                let temp2 = m[alt_row].clone();
+                m[alt_row] = m[column].clone();
+                m[column] = temp2;
+            }
+                
+        }
+
+        // Step 2, eliminate all elements below diagonal
+
+        for row in (column + 1)..R {
+            let mut coeff: f64 = m[row][column] / m[column][column];
+
+            for col in 0..R {
+                m[row][col] -= m[column][col] * coeff;
+                inv[row][col] -= inv[column][col] * coeff;
+            }
+
+            // m[row][column] = 0.0;
+        }
+    }
+
+    // Step 3, scale diagonal elements to be equal to 1.0
+    for i in 0..R {
+        let mut coeff: f64 = m[i][i];
+        for j in 0..R {
+            m[i][j] /= coeff;
+            inv[i][j] /= coeff;
+        }
+       // m[i][i] = 1.0;
+    }
+
+    // Step 4, eliminate all elements above diagonal
+    for col in 0..4 {
+        for row in (0..col).rev() {
+            let mut coeff = m[row][col];
+
+            for j in 0..R {
+                m[row][j] -= coeff * m[col][j];
+                inv[row][j] -= coeff * inv[col][j];
+            }
+
+           //  m[col][row] = 0.0;
+        }
+    }
+
+        inv
     }
 
     pub fn t(&self) -> Matrix<C,R> {
@@ -576,6 +657,64 @@ mod tests {
         
         let determinant5: f64 = mat5.det();
         assert!(float_equal(determinant5, -2120.0));
+    }
+
+    #[test]
+    fn inv_test() {
+        let mat1: Matrix<4,4> = Matrix::identity();
+
+        let mat_inv1 = mat1.inv();
+
+        for i in 0..4 {
+            for j in 0..4 {
+                if i == j {
+                    assert!(float_equal(mat_inv1[i][j], 1.0))
+                } else {
+                    assert!(float_equal(mat_inv1[i][j], 0.0))
+                }
+            }
+        }
+
+
+       let mat2 = Matrix::new([[-5.0, 2.0, 6.0, -8.0], 
+                                                       [1.0, -5.0, 1.0, 8.0], 
+                                                       [7.0, 7.0, -6.0, -7.0], 
+                                                       [1.0, -3.0, 7.0, 4.0]]);
+        
+        let mat2_inv = mat2.inv();
+
+        let identity2 = mat2 * mat2_inv;
+        for i in 0..4 {
+            for j in 0..4 {
+                if i == j {
+                    assert!(float_equal(identity2[i][j], 1.0))
+                } else {
+                    assert!(float_equal(identity2[i][j], 0.0))
+                }
+            }
+        }
+
+
+        let mat3 = Matrix::new([[8.0, -5.0, 9.0, 2.0], 
+                                                        [7.0, 5.0, 6.0, 1.0], 
+                                                        [-6.0, 0.0, 9.0, 6.0], 
+                                                        [-3.0, 0.0, -9.0, -4.0]]);
+
+        let mat3_inv = mat3.inv();
+
+        let identity3 = mat3 * mat3_inv;
+        for i in 0..4 {
+            for j in 0..4 {
+            if i == j {
+                assert!(float_equal(identity3[i][j], 1.0))
+            } else {
+                assert!(float_equal(identity3[i][j], 0.0))
+            }
+        }
+    }
+
+
+
     }
 
 
