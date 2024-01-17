@@ -218,12 +218,15 @@ impl<const R: usize, const C: usize> Matrix<R, C> {
         let mut determinant: f64 = 1.0;
 
         // pick a row
-        for i in 0..C {
+        'outer: for i in 0..C {
             // for each row below it
             for j in i+1..R {
-                let ratio = mat_copy[j][j] / mat_copy[i][j];
+                if(mat_copy[i][i] == 0.0) {
+                    break 'outer;
+                }
+                let ratio = mat_copy[j][i] / mat_copy[i][i];
 
-                for k in j..R {
+                for k in i..R {
                     mat_copy[j][k] -= ratio * mat_copy[i][k];
                 }
                 // subtract out 
@@ -239,15 +242,25 @@ impl<const R: usize, const C: usize> Matrix<R, C> {
     }
 
     pub fn inv(&self) -> Matrix<R,C> {
+        // if self.det() == 0.0 {
+        //     panic!("Matrix is not invertible!");
+        // }
+
+        // let augmented: Matrix<R,{R+1}>;
+
+
+        // let mat_ret = Matrix::default();
+
+        // mat_ret
         todo!()
     }
 
-    pub fn t(&self) -> Matrix<R,C> {
+    pub fn t(&self) -> Matrix<C,R> {
         let mut t_mat = Matrix::default();  
 
         for i in 0..R {
             for j in 0..C {
-                t_mat[i][j] = self[j][i];
+                t_mat[j][i] = self[i][j];
             }
         }
 
@@ -417,4 +430,154 @@ mod tests {
         assert!(float_equal(vec2[3], 150.0));
     }   
     
+    #[test]
+    fn mat_scalar_mul_test() {
+        let mut mat1 = Matrix::new([[1.0, 2.0, 3.0, 4.0], 
+            [5.0, 6.0, 7.0, 8.0], 
+            [9.0, 10.0, 11.0, 12.0], 
+            [13.0, 14.0, 15.0, 16.0]]);
+
+        let t: f64 = 2.0;
+
+        let mat2 = mat1 * t;
+        let mat3 = t * mat1;
+
+
+        assert!(float_equal(mat2[0][0], 2.0));
+        assert!(float_equal(mat2[2][3], 24.0));
+        assert!(float_equal(mat2[1][2], 14.0));  
+        assert!(float_equal(mat2[3][1], 28.0)); 
+
+
+        assert!(float_equal(mat3[0][0], 2.0));
+        assert!(float_equal(mat3[2][3], 24.0));
+        assert!(float_equal(mat3[1][2], 14.0));  
+        assert!(float_equal(mat3[3][1], 28.0)); 
+    }
+
+
+    #[test]
+    fn mat_scalar_mulassign_test() {
+        let mut mat1 = Matrix::new([[1.0, 2.0, 3.0, 4.0], 
+            [5.0, 6.0, 7.0, 8.0], 
+            [9.0, 10.0, 11.0, 12.0], 
+            [13.0, 14.0, 15.0, 16.0]]);
+
+        let t: f64 = -1.5;
+
+        mat1 *= t;
+
+
+        assert!(float_equal(mat1[0][0], -1.5));
+        assert!(float_equal(mat1[2][3], -18.0));
+        assert!(float_equal(mat1[1][2], -10.5));  
+        assert!(float_equal(mat1[3][1], -21.0)); 
+    }
+
+    #[test]
+    fn mat_scalar_div_test() {
+        let mut mat1 = Matrix::new([[1.0, 2.0, 3.0, 4.0], 
+            [5.0, 6.0, 7.0, 8.0], 
+            [9.0, 10.0, 11.0, 12.0], 
+            [13.0, 14.0, 15.0, 16.0]]);
+
+        let t: f64 = -2.0;
+
+        let mat2 = mat1 / t;
+        
+        assert!(float_equal(mat2[0][0], -0.5));
+        assert!(float_equal(mat2[2][3], -6.0));
+        assert!(float_equal(mat2[1][2], -3.5));  
+        assert!(float_equal(mat2[3][1], -7.0)); 
+    }
+
+    #[test]
+    fn mat_scalar_divassign_test() {
+        let mut mat1 = Matrix::new([[1.0, 2.0, 3.0, 4.0], 
+            [5.0, 6.0, 7.0, 8.0], 
+            [9.0, 10.0, 11.0, 12.0], 
+            [13.0, 14.0, 15.0, 16.0]]);
+
+        let t: f64 = -2.0;
+
+        mat1 /= t;
+        
+        assert!(float_equal(mat1[0][0], -0.5));
+        assert!(float_equal(mat1[2][3], -6.0));
+        assert!(float_equal(mat1[1][2], -3.5));  
+        assert!(float_equal(mat1[3][1], -7.0)); 
+    }
+
+    #[test]
+    fn transpose_test() {
+        let mut mat1 = Matrix::new([[1.0, 2.0, 3.0, 4.0], 
+            [5.0, 6.0, 7.0, 8.0], 
+            [9.0, 10.0, 11.0, 12.0]]);
+        
+        let mat2 = mat1.t();
+
+        assert!(float_equal(mat2[3][2], mat1[2][3]));
+        assert!(float_equal(mat2[2][1], mat1[1][2]));
+        assert!(float_equal(mat2[0][2], mat1[2][0]));
+    }
+
+    #[test]
+    #[should_panic]
+    fn det_nonsquare_test() {
+        let mut mat1 = Matrix::new([[1.0, 2.0, 3.0, 4.0], 
+            [5.0, 6.0, 7.0, 8.0], 
+            [9.0, 10.0, 11.0, 12.0]]);
+
+        let determinant = mat1.det();
+    }
+
+    #[test]
+    fn det_test() {
+        let mut mat1 = Matrix::new([[1.0, 2.0, 3.0, 4.0], 
+            [5.0, 6.0, 7.0, 8.0], 
+            [9.0, 10.0, 11.0, 12.0], 
+            [13.0, 14.0, 15.0, 16.0]]);
+        
+        let determinant1: f64 = mat1.det();
+        assert!(float_equal(determinant1, 0.0));
+
+
+        let mut mat2 = Matrix::new([[1.0, 0.0, 0.0, 0.0], 
+            [0.0, 1.0, 0.0, 0.0], 
+            [0.0, 0.0, 1.0, 0.0], 
+            [0.0, 0.0, 0.0, 1.0]]);
+
+        let determinant2: f64 = mat2.det();
+        assert_eq!(determinant2, 1.0);
+
+
+        let mut mat3 = Matrix::new([[-2.0, -8.0, 3.0, 5.0], 
+            [-3.0, 1.0, 7.0, 3.0], 
+            [1.0, 2.0, -9.0, 6.0], 
+            [-6.0, 7.0, 7.0, -9.0]]);
+        
+        let determinant3: f64 = mat3.det();
+        assert!(float_equal(determinant3, -4071.0));
+
+
+        let mut mat4 = Matrix::new([[-4.0, 2.0, -2.0, -3.0], 
+            [9.0, 6.0, 2.0, 6.0], 
+            [0.0, -5.0, 1.0, 5.0], 
+            [0.0, 0.0, 0.0, 0.0]]);
+        
+        let determinant4: f64 = mat4.det();
+        assert!(float_equal(determinant4, 0.0));
+
+
+        let mut mat5 = Matrix::new([[6.0, 4.0, 4.0, 4.0], 
+            [5.0, 5.0, 7.0, 6.0], 
+            [4.0, -9.0, 3.0, -7.0], 
+            [9.0, 1.0, 7.0, -6.0]]);
+        
+        let determinant5: f64 = mat5.det();
+        assert!(float_equal(determinant5, -2120.0));
+    }
+
+
+
 }

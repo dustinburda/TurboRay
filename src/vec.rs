@@ -198,6 +198,17 @@ impl<const N: usize> Vec<N> {
         Vec::new(vec_data)
     }
 
+    pub fn homogenize_normal(&self) -> Vec<{N+1}> {
+        let mut vec_data: [f64; {N+1}] = [0.0 as f64; {N+1}];
+
+        for i in 0..N {
+            vec_data[i] = self[i];
+        }
+        vec_data[N] = 0.0 as f64;
+
+        Vec::new(vec_data)
+    }
+
     pub fn dehomogenize(&self) -> Vec<{N-1}> {
         if {N-1} <= 0 {
             panic!("Can't dehomogenize a vector of 1-dimension or lower!");
