@@ -1,28 +1,40 @@
 
 BASICS
 Canvas ----------------------------------------------------- [DONE]
-Vec -------------------------------------------------------- [DONE]                           
+Vec -------------------------------------------------------- [DONE / Neg Op]                           
 Ray -------------------------------------------------------- [DONE]
-Matrix ----------------------------------------------------- [DONE]
-Transformations -------------------------------------------- [DONE / TEST / INTEGRATE INTO INTERSECTION ROUTINE]
+Matrix ----------------------------------------------------- [DONE / Neg Op]
+Transformations -------------------------------------------- [DONE / INTEGRATE INTO INTERSECTION ROUTINE]
 Color ------------------------------------------------------ [DONE]
 Viewport + Simple Camera ----------------------------------- [DONE / TEST]
 Sphere ----------------------------------------------------- [DONE / TEST]
 World ------------------------------------------------------ [DONE / TEST]
 Point Light ------------------------------------------------ [IN-PROGRESS]
 Diffuse Shading [Matte Material] --------------------------- [IN-PROGRESS]
-Blinn-Phong Shading [Plastic Material]                       
+Blinn-Phong Shading [Plastic Material] --------------------- [IN-PROGRESS]                       
 Positionable Projective Camera                               
 
 
 TODAY:
-    - Transformations
-    - Planes
+    - Planes (Flip Normals???????)
+    - Boxes
+
     - Point Lights
     - Diffuse Shading
     - Blinn-Phong Shading
-    - Shadows
+
     - Positionable Camera
+    
+    - Shadows
+    
+    - Procedural Textures
+    
+    - Depth of Field
+
+Extra Credit:
+    - Fix Anti-Aliasing
+    - Reflections
+    - 
 
 
 
@@ -62,9 +74,9 @@ Shadows
 Metals                                                       
 
 TEXTURES
-Image Textures                                               
 Procedural Textures                                          
-Noise Textures                                                
+Noise Textures  
+Image Textures                                                                                             
 Normal Maps + Bump Maps                                      
 Environment Maps                                             
 
