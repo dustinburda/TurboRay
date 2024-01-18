@@ -14,11 +14,15 @@ pub fn scale(x: f64, y: f64, z:f64) -> Mat44 {
                            [0.0, 0.0, 0.0, 1.0]])
 }
 
+
 /* 
 * @param: r, degrees in radians
 */
 pub fn rotx(r: f64) -> Mat44 {
-    todo!()
+    Matrix::new([[0.0, 0.0, 0.0, 0.0],
+                          [0.0, 0.0, 0.0, 0.0],
+                          [0.0, 0.0, 0.0, 0.0],
+                          [0.0, 0.0, 0.0, 0.0]])
 }
 
 
@@ -26,7 +30,10 @@ pub fn rotx(r: f64) -> Mat44 {
 * @param: r, degrees in radians
 */
 pub fn roty(r: f64) -> Mat44 {
-    todo!()
+    Matrix::new([[0.0, 0.0, 0.0, 0.0],
+                          [0.0, 0.0, 0.0, 0.0],
+                          [0.0, 0.0, 0.0, 0.0],
+                          [0.0, 0.0, 0.0, 0.0]])
 }
 
 
@@ -34,7 +41,10 @@ pub fn roty(r: f64) -> Mat44 {
 * @param: r, degrees in radians
 */
 pub fn rotz(r: f64) -> Mat44 {
-    todo!()
+    Matrix::new([[0.0, 0.0, 0.0, 0.0],
+                           [0.0, 0.0, 0.0, 0.0],
+                           [0.0, 0.0, 0.0, 0.0],
+                           [0.0, 0.0, 0.0, 0.0]])
 }
 
 pub fn shear(x_z: f64, x_y: f64, y_x: f64, y_z: f64, z_x: f64, z_y: f64) -> Mat44 {

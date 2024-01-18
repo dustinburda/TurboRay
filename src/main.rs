@@ -14,6 +14,7 @@ mod world;
 mod matrix;
 mod transformations;
 mod scenes;
+mod instance;
 
 use shape::Shape;
 use world::World;
