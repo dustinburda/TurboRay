@@ -4,13 +4,13 @@ Canvas ----------------------------------------------------- [DONE]
 Vec -------------------------------------------------------- [DONE / Neg Op]                           
 Ray -------------------------------------------------------- [DONE]
 Matrix ----------------------------------------------------- [DONE / Neg Op]
-Transformations -------------------------------------------- [DONE / INTEGRATE INTO INTERSECTION ROUTINE]
+Transformations -------------------------------------------- [DONE / TEST TRANSFORMED INTERSECTION]
 Color ------------------------------------------------------ [DONE]
 Viewport + Simple Camera ----------------------------------- [DONE / TEST]
 Sphere ----------------------------------------------------- [DONE / TEST]
 World ------------------------------------------------------ [DONE / TEST]
-Point Light ------------------------------------------------ [IN-PROGRESS]
-Diffuse Shading [Matte Material] --------------------------- [IN-PROGRESS]
+Point Light ------------------------------------------------ [DONE / DISTANCE ATTENUATION]
+Diffuse Shading [Matte Material] --------------------------- [DONE]
 Blinn-Phong Shading [Plastic Material] --------------------- [IN-PROGRESS]                       
 Positionable Projective Camera                               
 
@@ -19,8 +19,6 @@ TODAY:
     - Planes (Flip Normals???????)
     - Boxes
 
-    - Point Lights
-    - Diffuse Shading
     - Blinn-Phong Shading
 
     - Positionable Camera

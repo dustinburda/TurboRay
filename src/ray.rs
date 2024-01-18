@@ -1,4 +1,5 @@
 use crate::vec::Vec3;
+use crate::matrix::Matrix;
 
 #[derive(Debug)]
 pub struct Ray {
@@ -33,6 +34,13 @@ impl Ray {
     pub fn at(&self, t: f64) -> Vec3 {
         self.orig + t * self.dir
     }
+
+    pub fn transform(&self, mat: &Matrix<4,4>) -> Ray {
+        Ray {
+            orig: (*mat * self.orig.homogenize()).dehomogenize(),
+            dir: (*mat * self.dir.homogenize_vec()).dehomogenize()
+        }
+    }
  }
 
 #[cfg(test)]
@@ -65,6 +73,10 @@ mod tests {
         assert_eq!(r.at(2.0), Vec::new([3.0, 6.0, 5.0]));
         assert_eq!(r.at(-2.0), Vec::new([-1.0, -2.0, 1.0]));
         assert_eq!(r.at(1.5), Vec::new([2.5, 5.0, 4.5]));
+    }
+
+    pub fn transform_test() {
+        
     }
 
 }

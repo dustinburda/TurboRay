@@ -76,29 +76,21 @@ mod tests {
         // Translation matrix should translate point
         let p_translate = (translate1 * (p.homogenize())).dehomogenize();
 
-        assert!(float_equal(p_translate[0], 2.0));
-        assert!(float_equal(p_translate[1], 1.0));
-        assert!(float_equal(p_translate[2], 7.0));
+        assert_eq!(p_translate, Vec::new([2.0, 1.0, 7.0]));
 
         // The inverse translation should transform the translated point to the original point
         let inv_translate1 = translate1.inv();
 
         let inv_p_translate = (inv_translate1 * p_translate.homogenize()).dehomogenize();
 
-        assert!(float_equal(inv_p_translate[0], -3.0));
-        assert!(float_equal(inv_p_translate[1], 4.0));
-        assert!(float_equal(inv_p_translate[2], 5.0));
+        assert_eq!(inv_p_translate, Vec::new([-3.0, 4.0, 5.0]));
 
         // Translations don't affect vectors
         let v: Vec3 = Vec::new([5.0, -3.0, 2.0]);
 
         let v_translate = (translate1 * v.homogenize_vec()).dehomogenize();
 
-        assert!(float_equal(v_translate[0], 5.0));
-        assert!(float_equal(v_translate[1], -3.0));
-        assert!(float_equal(v_translate[2], 2.0));
-
-        
+        assert_eq!(v_translate, Vec::new([5.0, -3.0, 2.0]));        
     }
 
     #[test]
@@ -108,27 +100,19 @@ mod tests {
         let scale1 = scale(2.0, 3.0, 4.0);
 
         let p_scale = (scale1 * (p.homogenize())).dehomogenize();
-
-        assert!(float_equal(p_scale[0], -8.0));
-        assert!(float_equal(p_scale[1], 18.0));
-        assert!(float_equal(p_scale[2], 32.0));
+        assert_eq!(p_scale, Vec::new([-8.0, 18.0, 32.0]));
 
         let inv_scale1 = scale1.inv();
 
         let inv_p_scale = (inv_scale1 * p.homogenize()).dehomogenize();
+        assert_eq!(inv_p_scale, Vec::new([-2.0, 2.0, 2.0]));
 
-        assert!(float_equal(inv_p_scale[0], -2.0));
-        assert!(float_equal(inv_p_scale[1], 2.0));
-        assert!(float_equal(inv_p_scale[2], 2.0));
 
 
         let v: Vec3 = Vec::new([-4.0, 6.0, 8.0]);
 
         let v_scale = (scale1 * v.homogenize_vec()).dehomogenize();
-
-        assert!(float_equal(v_scale[0], -8.0));
-        assert!(float_equal(v_scale[1], 18.0));
-        assert!(float_equal(v_scale[2], 32.0));
+        assert_eq!(v_scale, Vec::new([-8.0, 18.0, 32.0]));
     }
 
     #[test]
@@ -139,20 +123,14 @@ mod tests {
         let rotPI_2x = rotx(PI / 2.0);
         
         let v_x_pi_4 = (rotPI_4x * v1.homogenize()).dehomogenize();
-        assert!(float_equal(v_x_pi_4[0], 0.0));
-        assert!(float_equal(v_x_pi_4[1], f64::sqrt(2.0)/2.0));
-        assert!(float_equal(v_x_pi_4[2], f64::sqrt(2.0)/2.0));
+        assert_eq!(v_x_pi_4, Vec::new([0.0, f64::sqrt(2.0)/2.0, f64::sqrt(2.0)/2.0]));
 
         let v_x_pi_2 = (rotPI_2x * v1.homogenize()).dehomogenize();
-        assert!(float_equal(v_x_pi_2[0], 0.0));
-        assert!(float_equal(v_x_pi_2[1], 0.0));
-        assert!(float_equal(v_x_pi_2[2], 1.0));
+        assert_eq!(v_x_pi_2, Vec::new([0.0, 0.0, 1.0]));
 
         let inv_rotPI_4x = rotx(PI / 4.0).inv();
         let inv_v_x_pi_4 =  (inv_rotPI_4x * v1.homogenize()).dehomogenize();
-        assert!(float_equal(inv_v_x_pi_4[0], 0.0));
-        assert!(float_equal(inv_v_x_pi_4[1], f64::sqrt(2.0)/2.0));
-        assert!(float_equal(inv_v_x_pi_4[2], -f64::sqrt(2.0)/2.0));
+        assert_eq!(inv_v_x_pi_4, Vec::new([0.0, f64::sqrt(2.0)/2.0, -f64::sqrt(2.0)/2.0]));
 
 
         let v2: Vec3 = Vec::new([0.0, 0.0, 1.0]);
@@ -161,39 +139,64 @@ mod tests {
         let rotPI_2y = roty(PI / 2.0);
 
         let v_y_pi_4 = (rotPI_4y * v2.homogenize()).dehomogenize();
-        assert!(float_equal(v_y_pi_4[0], f64::sqrt(2.0)/2.0));
-        assert!(float_equal(v_y_pi_4[1], 0.0));
-        assert!(float_equal(v_y_pi_4[2], f64::sqrt(2.0)/2.0));
+        assert_eq!(v_y_pi_4, Vec::new([f64::sqrt(2.0)/2.0, 0.0, f64::sqrt(2.0)/2.0]));
 
         let v_y_pi_2 = (rotPI_2y * v2.homogenize()).dehomogenize();
-        assert!(float_equal(v_y_pi_2[0], 1.0));
-        assert!(float_equal(v_y_pi_2[1], 0.0));
-        assert!(float_equal(v_y_pi_2[2], 0.0));
+        assert_eq!(v_y_pi_2, Vec::new([1.0, 0.0, 0.0]));
 
 
         let rotPI_4z = rotz(PI / 4.0);
         let rotPI_2z = rotz(PI / 2.0);
         
         let v_z_pi_4 = (rotPI_4z * v1.homogenize()).dehomogenize();
-        assert!(float_equal(v_z_pi_4[0], -f64::sqrt(2.0)/2.0));
-        assert!(float_equal(v_z_pi_4[1], f64::sqrt(2.0)/2.0));
-        assert!(float_equal(v_z_pi_4[2], 0.0));
+        assert_eq!(v_z_pi_4, Vec::new([-f64::sqrt(2.0)/2.0, f64::sqrt(2.0)/2.0, 0.0]));
 
         let v_z_pi_2 = (rotPI_2z * v1.homogenize()).dehomogenize();
-        assert!(float_equal(v_z_pi_2[0], -1.0));
-        assert!(float_equal(v_z_pi_2[1], 0.0));
-        assert!(float_equal(v_z_pi_2[2], 0.0));
+        assert_eq!(v_z_pi_2, Vec::new([-1.0, 0.0, 0.0]));
     }
 
 
     #[test]
     fn shear_test() {
-        // let v1: Vec3 = Vec::new([1.])
+        let v1: Vec3 = Vec::new([2.0, 3.0, 4.0]);
 
+        let shear1 = shear(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+        let v1_shear1 = (shear1 * v1.homogenize()).dehomogenize();
+        assert_eq!(v1_shear1, Vec::new([6.0, 3.0, 4.0]));
+
+        let shear2 = shear(0.0, 1.0, 0.0, 0.0, 0.0, 0.0);
+        let v1_shear2 = (shear2 * v1.homogenize()).dehomogenize();
+        assert_eq!(v1_shear2, Vec::new([5.0, 3.0, 4.0]));
+
+        let shear3 = shear(0.0, 0.0, 1.0, 0.0, 0.0, 0.0);
+        let v1_shear3 = (shear3 * v1.homogenize()).dehomogenize();
+        assert_eq!(v1_shear3, Vec::new([2.0, 5.0, 4.0]));
+
+        let shear4 = shear(0.0, 0.0, 0.0, 1.0, 0.0, 0.0);
+        let v1_shear4 = (shear4 * v1.homogenize()).dehomogenize();
+        assert_eq!(v1_shear4, Vec::new([2.0, 7.0, 4.0]));
+
+        let shear5 = shear(0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+        let v1_shear5 = (shear5 * v1.homogenize()).dehomogenize();
+        assert_eq!(v1_shear5, Vec::new([2.0, 3.0, 6.0]));
+
+        let shear6 = shear(0.0, 0.0, 0.0, 0.0, 0.0, 1.0);
+        let v1_shear6 = (shear6 * v1.homogenize()).dehomogenize();
+        assert_eq!(v1_shear6, Vec::new([2.0, 3.0, 7.0]));
     }
 
     #[test]
     fn integration_test() {
-        
+        let p: Vec3 = Vec::new([1.0, 0.0, 1.0]);
+
+        let t1 = rotx(PI / 2.0);
+        let t2 = scale(5.0, 5.0, 5.0);
+        let t3 = translation(10.0, 5.0, 7.0);
+
+        let t = t3 * t2 * t1;
+
+        let p_prime = (t * p.homogenize()).dehomogenize();
+
+        assert_eq!(p_prime, Vec::new([15.0, 0.0, 7.0]));
     }
 }

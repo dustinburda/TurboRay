@@ -3,15 +3,18 @@ use crate::material::{ShadeContext, Material};
 use crate::shape::Shape;
 use crate::color::Color;
 use crate::ray::Ray;
+use crate::light::PointLight;
 
 pub struct World {
-    shapes: Vec<Box<dyn Shape>>
+    shapes: Vec<Box<dyn Shape>>,
+    light: PointLight
 }
 
 impl World {
     pub fn new() -> World {
         World {
-            shapes: vec![]
+            shapes: vec![],
+            light: PointLight::default()
         }
     }
 
@@ -27,6 +30,10 @@ impl World {
 
     pub fn add_shape(&mut self, shape: Box<dyn Shape>) {
         self.shapes.push(shape);
+    }
+
+    pub fn add_light(&mut self, light: PointLight) {
+        self.light = light;
     }
 }
 

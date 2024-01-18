@@ -15,6 +15,7 @@ mod matrix;
 mod transformations;
 mod scenes;
 mod instance;
+mod light;
 
 use shape::Shape;
 use world::World;
@@ -26,8 +27,8 @@ use crate::world::{trace};
 use crate::scenes::scene1;
 use crate::shading::diffuse_shading;
 
-const WIDTH: i64 = 1000 as i64;
-const HEIGHT: i64 = 500 as i64;
+const WIDTH: i64 = 500 as i64;
+const HEIGHT: i64 = 250 as i64;
 const NUM_SAMPLES: i8 = 20; // super-sampling
 
 pub fn main() {
@@ -42,13 +43,18 @@ pub fn main() {
         print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
         for x in 0..(WIDTH as i64) {
  
-            let mut color = Color::new(0.0, 0.0, 0.0);
-            for i in 0..NUM_SAMPLES {
-                let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOn);
+            // let mut color = Color::new(0.0, 0.0, 0.0);
+            // for i in 0..NUM_SAMPLES {
+            //     let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOn);
             
-                color += trace(&r, &world);
-            }
-            color /= (NUM_SAMPLES as f64);
+            //     color += trace(&r, &world);
+            // }
+            // color /= (NUM_SAMPLES as f64);
+
+
+            let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOff);
+            
+            let color = trace(&r, &world);
             
 
             canv.set_pixel_at(x, y, color);

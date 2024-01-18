@@ -1,7 +1,7 @@
 #![feature(generic_const_exprs)]
 
 use std::ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
-use num_traits::abs;
+use num_traits::{abs, float};
 
 
 pub type Vec2 = Vec<2>;
@@ -29,7 +29,7 @@ pub struct Vec<const N: usize>
 impl<const N: usize> PartialEq for Vec<N> {
     fn eq(&self, other: &Self) -> bool {
         for i in 0..N {
-            if self[i] != other[i] {
+            if !float_equal(self[i], other[i]) {
                 return false;
             }
         }
@@ -284,9 +284,7 @@ mod tests {
 
         let v3: Vec<3> = v1 + v2;
 
-        assert!(float_equal(v3[0], 3.1));
-        assert!(float_equal(v3[1], 0.8));
-        assert!(float_equal(v3[2], -0.3));
+        assert_eq!(v3, Vec::new([3.1, 0.8, -0.3]));
     }
 
     #[test]
@@ -296,9 +294,7 @@ mod tests {
 
         v1 += v2;
 
-        assert!(float_equal(v1[0], 3.1));
-        assert!(float_equal(v1[1], 0.8));
-        assert!(float_equal(v1[2], -0.3));
+        assert_eq!(v1, Vec::new([3.1, 0.8, -0.3]));
     }
 
     #[test]
@@ -308,9 +304,7 @@ mod tests {
 
         let v3: Vec<3> = v1 - v2;
 
-        assert!(float_equal(v3[0], -1.1));
-        assert!(float_equal(v3[1], 3.2));
-        assert!(float_equal(v3[2], 6.3));
+        assert_eq!(v3, Vec::new([-1.1, 3.2, 6.3]));
     }
 
     #[test]
@@ -320,9 +314,7 @@ mod tests {
 
         v1 -= v2;
 
-        assert!(float_equal(v1[0], -1.1));
-        assert!(float_equal(v1[1], 3.2));
-        assert!(float_equal(v1[2], 6.3));
+        assert_eq!(v1, Vec::new([-1.1, 3.2, 6.3]));
     }
 
 
@@ -333,16 +325,12 @@ mod tests {
         let t: f64 = 2.1;
 
         let v3 = v1 * t;
-
-        assert!(float_equal(v3[0], 2.1));
-        assert!(float_equal(v3[1], 4.2));
-        assert!(float_equal(v3[2], 6.3));
+  
+        assert_eq!(v3, Vec::new([2.1, 4.2, 6.3]));
 
         let v4 = t * v1;
 
-        assert!(float_equal(v4[0], 2.1));
-        assert!(float_equal(v4[1], 4.2));
-        assert!(float_equal(v4[2], 6.3));
+        assert_eq!(v4, Vec::new([2.1, 4.2, 6.3]));
     }
 
     #[test]
@@ -353,9 +341,7 @@ mod tests {
 
         v1 *= t;
 
-        assert!(float_equal(v1[0], 2.1));
-        assert!(float_equal(v1[1], 4.2));
-        assert!(float_equal(v1[2], 6.3));
+        assert_eq!(v1, Vec::new([2.1, 4.2, 6.3]));
     }
 
     #[test]
@@ -366,9 +352,7 @@ mod tests {
 
         let v2 =  v1 / t;
 
-        assert!(float_equal(v2[0], 0.476190476));
-        assert!(float_equal(v2[1], 0.952380952));
-        assert!(float_equal(v2[2], 1.428571429));
+        assert_eq!(v2, Vec::new([0.476190476, 0.952380952, 1.428571429]));
     }
 
 
@@ -380,9 +364,7 @@ mod tests {
 
         v1 /= t;
 
-        assert!(float_equal(v1[0], 0.476190476));
-        assert!(float_equal(v1[1], 0.952380952));
-        assert!(float_equal(v1[2], 1.428571429));
+        assert_eq!(v1, Vec::new([0.476190476, 0.952380952, 1.428571429]));
     }
 
     #[test]
@@ -463,9 +445,7 @@ mod tests {
 
         let v3 = cross(v1, v2);
 
-        assert!(float_equal(v3[0], -7.0));
-        assert!(float_equal(v3[1], 5.0));
-        assert!(float_equal(v3[2], -1.0));
+        assert_eq!(v3, Vec::new([-7.0, 5.0, -1.0]));
     }
 
 }

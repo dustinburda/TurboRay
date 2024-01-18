@@ -1,22 +1,27 @@
 use crate::material::Material;
-use crate::vec::{Vec3, dot};
+use crate::vec::{Vec3, dot, Vec};
 use crate::shape::Shape;
 use crate::material::ShadeContext;
+use crate::matrix::{Matrix, Mat44};
 use crate::ray::Ray;
 use std::rc::Rc;
 
 pub struct Sphere {
     radius: f64,
     center: Vec3,
-    material: Option<Rc<Material>>
+    material: Option<Rc<Material>>,
+    obj_to_world: Mat44,
+    world_to_obj: Mat44
 }
 
 impl Sphere {
-    pub fn new(radius: f64, center: Vec3, material: Option<Rc<Material>>) -> Sphere {
+    pub fn new(radius: f64, material: Option<Rc<Material>>) -> Sphere {
         Sphere {
             radius: radius,
-            center: center,
-            material: material
+            center: Vec::new([0.0, 0.0, 0.0]),
+            material: material,
+            obj_to_world: Matrix::identity(),
+            world_to_obj: Matrix::identity()
         }
     }
 
@@ -30,7 +35,10 @@ impl Sphere {
 }
 
 impl Shape for Sphere {
-    fn hit(&self, r: &Ray, t_near: f64, t_far: f64, shade_context: &mut ShadeContext) -> bool {
+    fn hit(&self, ray: &Ray, t_near: f64, t_far: f64, shade_context: &mut ShadeContext) -> bool {
+
+        let r = ray.transform(&self.world_to_obj);
+
         let a:f64 = dot(r.dir(), r.dir());
         let b: f64 = 2.0 * dot(r.dir(), r.orig() - self.center);
         let c: f64 = dot(r.orig() - self.center, r.orig()- self.center) - self.radius * self.radius;
@@ -58,7 +66,7 @@ impl Shape for Sphere {
         let hit_point: Vec3 = r.at(hit_time);
 
         shade_context.hit_time = hit_time;
-        shade_context.normal = self.normal_at(&hit_point);
+        shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&hit_point).homogenize_vec()).dehomogenize();
         shade_context.material = self.material_at(&hit_point);
 
         true
@@ -71,6 +79,11 @@ impl Shape for Sphere {
 
     fn material_at(&self, hit_point: &Vec3) -> Option<Rc<Material>> {
         self.material.clone()
+    }
+
+    fn set_transform(&mut self, mat: Mat44) {
+        self.obj_to_world = mat;
+        self.world_to_obj = mat.inv();
     }
 }
 
@@ -86,7 +99,7 @@ mod tests {
 
     #[test]
     pub fn intersection1_test() {
-        let sphere = Sphere::new(1.0, Vec::new([0.0, 0.0, 0.0]), None);
+        let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
 
@@ -98,7 +111,7 @@ mod tests {
 
     #[test]
     pub fn intersection2_test() {
-        let sphere = Sphere::new(1.0, Vec::new([0.0, 0.0, 0.0]), None);
+        let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 0.0, -5.0]), Vec::new([0.0, 0.0, 1.0]));
 
@@ -110,7 +123,7 @@ mod tests {
 
     #[test]
     pub fn intersection3_test() {
-        let sphere = Sphere::new(1.0, Vec::new([0.0, 0.0, 0.0]), None);
+        let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 1.0, -5.0]), Vec::new([0.0, 0.0, 1.0]));
 
@@ -122,7 +135,7 @@ mod tests {
 
     #[test]
     pub fn intersection4_test() {
-        let sphere = Sphere::new(1.0, Vec::new([0.0, 0.0, 0.0]), None);
+        let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
 
