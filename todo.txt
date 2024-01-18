@@ -1,0 +1,76 @@
+
+BASICS
+Canvas ----------------------------------------------------- [DONE]
+Vec -------------------------------------------------------- [DONE]                           
+Ray -------------------------------------------------------- [DONE]
+Matrix ----------------------------------------------------- [DONE]
+Transformations -------------------------------------------- [DONE / TEST / INTEGRATE INTO INTERSECTION ROUTINE]
+Color ------------------------------------------------------ [DONE]
+Viewport + Simple Camera ----------------------------------- [DONE / TEST]
+Sphere ----------------------------------------------------- [DONE / TEST]
+World ------------------------------------------------------ [DONE / TEST]
+Point Light ------------------------------------------------ [IN-PROGRESS]
+Diffuse Shading [Matte Material] --------------------------- [IN-PROGRESS]
+Blinn-Phong Shading [Plastic Material]                       
+Positionable Projective Camera                               
+
+
+TODAY:
+    - Transformations
+    - Planes
+    - Point Lights
+    - Diffuse Shading
+    - Blinn-Phong Shading
+    - Shadows
+    - Positionable Camera
+
+
+
+
+DISTRIBUTED RENDERING
+Anti-Aliasing via supersampling ---------------------------- [DONE / Add Jittered Sampling/ Adaptive Super Sampling]
+Soft Shadows + Area Lights                                   
+Depth of Field                                               
+Glossy Reflection                                            
+
+ADDITIONAL PRIMITIVES
+Cone and Cylinder                                            
+Planes ----------------------------------------------------- [IN-PROGRESS]                                     
+Disks + Quads                                                
+Torus
+Box                                                        
+Triangle                                                     
+
+
+MESHES
+OBJ loader                                                   
+Mesh                                                         
+Flat Shading                                                 
+Gourard Shading                                              
+Phong-Shading                                                                                              
+
+
+ACCELERATION STRUCTURES
+Bounding Volume Hierarchy                                    
+
+
+LIGHT TRANSPORT
+Reflection                                                   
+Refraction                                                   
+Realistic Refraction                                         
+Shadows                                                      
+Metals                                                       
+
+TEXTURES
+Image Textures                                               
+Procedural Textures                                          
+Noise Textures                                                
+Normal Maps + Bump Maps                                      
+Environment Maps                                             
+
+MISC
+Volumes
+Spot Lights                                                  
+Motion Blur                                                  
+Concurrency                                                   
+CSG                                                          
