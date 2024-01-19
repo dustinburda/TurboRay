@@ -51,11 +51,11 @@ pub fn trace(r: &Ray, world: &World) -> Color {
 
         color = match material {
             // Material::Matte(color) => color, 
-            Material::Matte(color) => diffuse_shading(color, &shade_context.normal, &world.light, &shade_context.hit_point),
+            Material::Matte(color, ambient, diffuse) => diffuse_shading(color, &shade_context.normal, &world.light, &shade_context.hit_point, ambient, diffuse),
             _ => Color::new(0.0, 0.0, 0.0)
         }
     } else {
-        color = Color::new(0.0, 0.0 , 255.0);
+        color = Color::new(0.0, 255.0 , 0.0);
     }
 
     color

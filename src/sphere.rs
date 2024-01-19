@@ -67,9 +67,10 @@ impl Shape for Sphere {
         let object_point = (self.world_to_obj * world_point.homogenize()).dehomogenize();
 
         shade_context.hit_time = hit_time;
-        let mut normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec());
-        normal[3] = 0.0;
-        shade_context.normal = normal.dehomogenize().normal();
+        // let mut normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();
+        shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();
+        // normal[3] = 0.0;
+        // shade_context.normal = normal.dehomogenize().normal();
 
 
 
@@ -207,22 +208,4 @@ mod tests {
                                                                     f64::sqrt(3.0) / 3.0]));
         assert_eq!(n4, Vec::new([f64::sqrt(3.0) / 3.0, f64::sqrt(3.0) / 3.0, f64::sqrt(3.0) / 3.0]));
     }
-
-    #[test]
-    fn transformed_normal_at_test() {
-        let mut s: Sphere = Sphere::new(1.0, None);
-        s.set_transform(scale(1.0, 0.5, 1.0) * rotz(std::f64::consts::PI / 5.0));
-
-        let mut shade_context = ShadeContext::new();
-        
-        let r = Ray::new(Vec::new([0.0, 0.0, -10.0]), Vec::new([0.0, 0.0, 1.0]));
-
-        s.hit(&r, 0.0, f64::MAX, &mut shade_context);
-
-        
-
-
-
-
-    }    
 }

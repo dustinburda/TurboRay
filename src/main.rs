@@ -27,7 +27,7 @@ use crate::world::{trace};
 use crate::scenes::scene1;
 use crate::shading::diffuse_shading;
 
-const WIDTH: i64 = 500 as i64;
+const WIDTH: i64 = 1000 as i64;
 const HEIGHT: i64 = 500 as i64;
 const NUM_SAMPLES: i8 = 20; // super-sampling
 
@@ -35,7 +35,7 @@ pub fn main() {
 
     let mut canv = Canvas::new(WIDTH, HEIGHT);
 
-    let cam = ProjCamera::new(15.0);
+    let cam = ProjCamera::new(2.0);
 
     let world = scene1();
 
