@@ -1,6 +1,6 @@
 #![feature(generic_const_exprs)]
 
-use std::ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
+use std::ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
 use num_traits::{abs, float};
 
 
@@ -44,6 +44,20 @@ impl<const N: usize> Vec<N> {
         Vec { 
             data: vec_data
         }
+    }
+}
+
+impl<const N: usize> Neg for Vec<N> {
+    type Output = Vec<N>;
+
+    fn neg(self) -> Vec<N> {
+        let mut neg_vec = Vec::new([0.0; N]);
+
+        for i in 0..N {
+            neg_vec[i] = (-1.0) * self[i];
+        }
+
+        neg_vec
     }
 }
 
@@ -238,6 +252,9 @@ impl<const N: usize> Vec<N> {
     }
 }
 
+pub fn reflect<const N: usize>(n: Vec<N>, v: Vec<N>) -> Vec<N> {
+    v - 2.0 * dot(n, v) * n
+}
 
 pub fn dot<const N: usize>(v1: Vec<N>, v2: Vec<N>) -> f64 {
     let mut dot_product = 0.0 as f64;
@@ -264,6 +281,8 @@ mod tests {
 
     use crate::vec::Vec;
     use crate::vec::{dot, cross, float_equal};
+
+    use super::reflect;
     
     #[test]
     pub fn index_test() {
@@ -460,6 +479,32 @@ mod tests {
         let v3 = cross(v1, v2);
 
         assert_eq!(v3, Vec::new([-7.0, 5.0, -1.0]));
+    }
+
+    #[test]
+    fn neg_test() {
+        let v = Vec::new([1.0, 2.0, 3.0]);
+
+        let n_v = -v;
+
+        assert_eq!(n_v, Vec::new([-1.0, -2.0, -3.0]));
+    }
+
+    #[test]
+    fn reflect_test() {
+        let v1 = Vec::new([1.0, -1.0, 0.0]);
+        let n1 = Vec::new([0.0, 1.0, 0.0]);
+        let r1 = reflect(n1, v1);
+
+        assert_eq!(r1, Vec::new([1.0, 1.0, 0.0]));
+
+
+        let v2 = Vec::new([0.0, -1.0, 0.0]);
+        let n2 = Vec::new([f64::sqrt(2.0) / 2.0, f64::sqrt(2.0) / 2.0, 0.0]);
+        let r2 = reflect(n2, v2);
+
+        assert_eq!(r2, Vec::new([1.0, 0.0, 0.0]));
+
     }
 
 }

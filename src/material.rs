@@ -6,10 +6,10 @@ use std::option::Option;
 #[derive(Debug, Clone, Copy)]
 pub enum Material {
     Matte(Color, f64, f64), //Diffuse
-    Plastic(f64, f64, f64), //Blinn-Phong, specular highlights
+    Plastic(Color, f64, f64, f64, f64), //Blinn-Phong, specular highlights
     Metal (Color), //Reflect + Tint
     Mirror, // Reflect
-    Glass // Reflect + Refract
+    Glass // Reflect + Refract 
 }
 
 pub struct ShadeContext {

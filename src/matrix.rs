@@ -1,6 +1,6 @@
 #![feature(generic_const_exprs)]
 
-use std::{ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign}, default};
+use std::{ops::{Index, IndexMut, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg}, default};
 
 use crate::vec::Vec;
 
@@ -46,6 +46,21 @@ impl<const R: usize, const C: usize> IndexMut<usize> for Matrix<R,C> {
     }
 }
 
+impl<const R: usize, const C: usize> Neg for Matrix<R,C> {
+    type Output = Matrix<R,C>;
+
+    fn neg(self) -> Matrix<R,C> {
+        let mut neg_mat: Matrix<R,C> = Matrix::default();
+
+        for i in 0..R {
+            for j in 0..C {
+                neg_mat[i][j] = self[i][j] * (-1.0);
+            }
+        }
+
+        neg_mat
+    }
+}
 
 impl<const R:usize, const C: usize> Add for Matrix<R,C> {
     type Output = Matrix<R,C>;
@@ -705,16 +720,27 @@ mod tests {
         let identity3 = mat3 * mat3_inv;
         for i in 0..4 {
             for j in 0..4 {
-            if i == j {
-                assert!(float_equal(identity3[i][j], 1.0))
-            } else {
-                assert!(float_equal(identity3[i][j], 0.0))
+                if i == j {
+                    assert!(float_equal(identity3[i][j], 1.0))
+                } else {
+                    assert!(float_equal(identity3[i][j], 0.0))
+                }
             }
         }
     }
 
+    #[test]
+    fn neg_mat_test() {
+        let mut mat = Matrix::new([[1.0, 2.0, 3.0, 4.0], 
+            [5.0, 6.0, 7.0, 8.0], 
+            [9.0, 10.0, 11.0, 12.0], 
+            [13.0, 14.0, 15.0, 16.0]]);
 
+        let mat = -mat;
 
+        assert_eq!(mat[3][3], -16.0);
+        assert_eq!(mat[2][1], -10.0);
+        assert_eq!(mat[0][2], -3.0);
     }
 
 

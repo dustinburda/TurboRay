@@ -66,11 +66,15 @@ impl Shape for Sphere {
         let world_point: Vec3 = ray.at(hit_time);
         let object_point = (self.world_to_obj * world_point.homogenize()).dehomogenize();
 
+        assert_eq!(object_point, r.at(hit_time));
+
         shade_context.hit_time = hit_time;
         // let mut normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();
-        shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();
+        // shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();
         // normal[3] = 0.0;
         // shade_context.normal = normal.dehomogenize().normal();
+
+        shade_context.normal = self.normal_at(&world_point);
 
 
 
@@ -81,8 +85,13 @@ impl Shape for Sphere {
     }
 
     // TODO: flip normal if dot product with incident ray is positive
-    fn normal_at(&self, hit_point: &Vec3) -> Vec3 {
-       ( *hit_point - self.center).normal()
+    fn normal_at(&self, world_hit_point: &Vec3) -> Vec3 {
+       // ( *hit_point - self.center).normal()
+       let object_point = (self.world_to_obj * world_hit_point.homogenize()).dehomogenize();
+       let object_normal = object_point - self.center;
+       let world_normal = (self.world_to_obj.t() * object_normal.homogenize_vec()).dehomogenize_normal();
+
+       world_normal.normal()
     }
 
     fn material_at(&self, hit_point: &Vec3) -> Option<Rc<Material>> {
@@ -207,5 +216,24 @@ mod tests {
                                                                     f64::sqrt(3.0) / 3.0, 
                                                                     f64::sqrt(3.0) / 3.0]));
         assert_eq!(n4, Vec::new([f64::sqrt(3.0) / 3.0, f64::sqrt(3.0) / 3.0, f64::sqrt(3.0) / 3.0]));
+    }
+
+    #[test]
+    fn normal_at_transformed_test() {
+        let mut s1: Sphere = Sphere::new(1.0, None);
+        s1.set_transform(translation(0.0, 1.0, 0.0));
+
+        let normal_s1 = s1.normal_at(&Vec::new([0.0, 1.70711, -0.70711]));
+        assert_eq!(normal_s1, Vec::new([0.0, 0.70711, -0.70711]));
+
+
+
+        let mut s2: Sphere = Sphere::new(1.0, None);
+        s2.set_transform(scale(1.0, 0.5, 1.0) * rotz(std::f64::consts::PI / 5.0));
+
+        let normal_s2 = s2.normal_at(&Vec::new([0.0, f64::sqrt(2.0) / 2.0, -f64::sqrt(2.0) / 2.0]));
+        assert_eq!(normal_s2, Vec::new([0.0, 0.97014, -0.24254]));
+
+
     }
 }

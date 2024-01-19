@@ -1,6 +1,6 @@
 use crate::canvas::Canvas;
 use crate::material::{ShadeContext, Material};
-use crate::shading::diffuse_shading;
+use crate::shading::{diffuse_shading, blinn_phong_shading};
 use crate::shape::Shape;
 use crate::color::Color;
 use crate::ray::Ray;
@@ -52,6 +52,7 @@ pub fn trace(r: &Ray, world: &World) -> Color {
         color = match material {
             // Material::Matte(color) => color, 
             Material::Matte(color, ambient, diffuse) => diffuse_shading(color, &shade_context.normal, &world.light, &shade_context.hit_point, ambient, diffuse),
+            Material::Plastic(Color, ambient, diffuse, specular, shininess) => blinn_phong_shading(color, &shade_context.normal, &shade_context.hit_point, &world.light, &r, ambient, diffuse, specular, shininess),
             _ => Color::new(0.0, 0.0, 0.0)
         }
     } else {

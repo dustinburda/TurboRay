@@ -1,17 +1,17 @@
 
 BASICS
 Canvas ----------------------------------------------------- [DONE]
-Vec -------------------------------------------------------- [DONE / Neg Op]                           
+Vec -------------------------------------------------------- [DONE]                           
 Ray -------------------------------------------------------- [DONE]
-Matrix ----------------------------------------------------- [DONE / Neg Op]
+Matrix ----------------------------------------------------- [DONE]
 Transformations -------------------------------------------- [DONE / TEST TRANSFORMED INTERSECTION]
 Color ------------------------------------------------------ [DONE]
 Viewport + Simple Camera ----------------------------------- [DONE / TEST]
 Sphere ----------------------------------------------------- [DONE / TEST]
 World ------------------------------------------------------ [DONE / TEST]
-Point Light ------------------------------------------------ [DONE / DISTANCE ATTENUATION]
-Diffuse Shading [Matte Material] --------------------------- [DONE]
-Blinn-Phong Shading [Plastic Material] --------------------- [IN-PROGRESS]                       
+Point Light ------------------------------------------------ [DONE]
+Diffuse Shading [Matte Material] --------------------------- [DONE / ADD ATTENUATION MODE]
+Blinn-Phong Shading [Plastic Material] --------------------- [IN-PROGRESS / FLIP NORMAL????]                       
 Positionable Projective Camera                               
 
 
@@ -20,11 +20,12 @@ TODAY:
     - Blinn-Phong Shading
     - Positionable Camera
     - Shadows
-
-Extra Credit:
-    - Fix Anti-Aliasing
+    - Boxes
     - Reflections
-    - 
+    - Procedural Textures
+    - Fix Anti-Aliasing
+    - Depth of Field
+    - Glossy Reflections
 
 
 
@@ -40,17 +41,7 @@ Cone and Cylinder
 Planes ----------------------------------------------------- [IN-PROGRESS]                                     
 Disks + Quads                                                
 Torus
-Box                                                        
-Triangle                                                     
-
-
-MESHES
-OBJ loader                                                   
-Mesh                                                         
-Flat Shading                                                 
-Gourard Shading                                              
-Phong-Shading                                                                                              
-
+Box                                                                                                           
 
 ACCELERATION STRUCTURES
 Bounding Volume Hierarchy                                    
@@ -69,7 +60,17 @@ Procedural Textures
 Noise Textures  
 Image Textures                                                                                             
 Normal Maps + Bump Maps                                      
-Environment Maps                                             
+Environment Maps  
+
+
+
+MESHES
+Triangle
+OBJ loader                                                   
+Mesh                                                         
+Flat Shading                                                 
+Gourard Shading                                              
+Phong-Shading                                                                                                                                         
 
 MISC
 Volumes
