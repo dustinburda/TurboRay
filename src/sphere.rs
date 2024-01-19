@@ -66,8 +66,9 @@ impl Shape for Sphere {
         let hit_point: Vec3 = r.at(hit_time);
 
         shade_context.hit_time = hit_time;
-        shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&hit_point).homogenize_vec()).dehomogenize();
+        shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&hit_point).homogenize_vec()).dehomogenize().normal();
         shade_context.material = self.material_at(&hit_point);
+        shade_context.hit_point = (self.world_to_obj * hit_point.homogenize()).dehomogenize();
 
         true
     }
@@ -143,4 +144,15 @@ mod tests {
 
         assert!(sphere.hit(&r, 0.0, f64::MAX , &mut shade_context))
     } 
+
+    #[test]
+    pub fn intersection5_test() {
+        let sphere = Sphere::new(1.0, None);
+
+        let r = Ray::new(Vec::new([0.0, 0.0, 5.0]), Vec::new([0.0, 0.0, 1.0]));
+
+        let mut shade_context = ShadeContext::new(); 
+
+        assert!(sphere.hit(&r, 0.0, f64::MAX , &mut shade_context))
+    }
 }

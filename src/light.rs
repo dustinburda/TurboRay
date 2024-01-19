@@ -15,6 +15,14 @@ impl PointLight {
             position: position
         }
     }
+
+    pub fn intensity(&self) -> f64 {
+        self.intensity
+    }
+
+    pub fn pos(&self) -> Vec3 {
+        self.position.clone()
+    }
 }
 
 impl Default for PointLight {

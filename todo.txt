@@ -17,17 +17,9 @@ Positionable Projective Camera
 
 TODAY:
     - Planes (Flip Normals???????)
-    - Boxes
-
     - Blinn-Phong Shading
-
     - Positionable Camera
-    
     - Shadows
-    
-    - Procedural Textures
-    
-    - Depth of Field
 
 Extra Credit:
     - Fix Anti-Aliasing
@@ -65,11 +57,12 @@ Bounding Volume Hierarchy
 
 
 LIGHT TRANSPORT
-Reflection                                                   
+Reflection   
+Metals                                                
 Refraction                                                   
 Realistic Refraction                                         
 Shadows                                                      
-Metals                                                       
+                                                  
 
 TEXTURES
 Procedural Textures                                          

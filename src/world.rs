@@ -1,5 +1,6 @@
 use crate::canvas::Canvas;
 use crate::material::{ShadeContext, Material};
+use crate::shading::diffuse_shading;
 use crate::shape::Shape;
 use crate::color::Color;
 use crate::ray::Ray;
@@ -49,11 +50,12 @@ pub fn trace(r: &Ray, world: &World) -> Color {
         let material = (*shade_context.material.unwrap()).clone();
 
         color = match material {
-            Material::Matte(color) => color, 
+            // Material::Matte(color) => color, 
+            Material::Matte(color) => diffuse_shading(color, &shade_context.normal, &world.light, &shade_context.hit_point),
             _ => Color::new(0.0, 0.0, 0.0)
         }
     } else {
-        color = Color::new(0.0, 255.0 , 0.0);
+        color = Color::new(0.0, 0.0 , 255.0);
     }
 
     color

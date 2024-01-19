@@ -15,7 +15,9 @@ pub enum Material {
 pub struct ShadeContext {
     pub normal: Vec3,
     pub material: Option<Rc<Material>>,
-    pub hit_time: f64
+    pub hit_time: f64,
+    pub hit_point: Vec3
+    // TODO: add a hitpoint for shadows
 }
 
 impl ShadeContext {
@@ -23,7 +25,8 @@ impl ShadeContext {
         ShadeContext {
             normal: Vec::new([0.0, 0.0, 0.0]),
             material: None,
-            hit_time: f64::MAX
+            hit_time: f64::MAX,
+            hit_point: Vec::new([0.0, 0.0, 0.0])
         }
     }
 }
