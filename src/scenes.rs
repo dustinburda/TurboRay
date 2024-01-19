@@ -23,7 +23,7 @@ pub fn scene1() -> World {
     // let mut sphere3: Box<dyn Shape> = Box::new(Sphere::new(1.0, Some(material3)));
     // sphere3.set_transform(translation(5.0, 0.0, 5.0));
 
-    let light: PointLight = PointLight::new(1.0, Vec::new([10.0, -10.0, 20.0]));
+    let light: PointLight = PointLight::new(1.0, Vec::new([-10.0, 10.0, -20.0]));
 
     let mut world = World::new();
     world.add_shape(sphere1);

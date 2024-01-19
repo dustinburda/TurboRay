@@ -63,19 +63,25 @@ impl Shape for Sphere {
             }
         }
         
-        let hit_point: Vec3 = r.at(hit_time);
+        let world_point: Vec3 = ray.at(hit_time);
+        let object_point = (self.world_to_obj * world_point.homogenize()).dehomogenize();
 
         shade_context.hit_time = hit_time;
-        shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&hit_point).homogenize_vec()).dehomogenize().normal();
-        shade_context.material = self.material_at(&hit_point);
-        shade_context.hit_point = (self.world_to_obj * hit_point.homogenize()).dehomogenize();
+        let mut normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec());
+        normal[3] = 0.0;
+        shade_context.normal = normal.dehomogenize().normal();
+
+
+
+        shade_context.material = self.material_at(&object_point);
+        shade_context.hit_point = world_point;
 
         true
     }
 
     // TODO: flip normal if dot product with incident ray is positive
     fn normal_at(&self, hit_point: &Vec3) -> Vec3 {
-        *hit_point - self.center
+       ( *hit_point - self.center).normal()
     }
 
     fn material_at(&self, hit_point: &Vec3) -> Option<Rc<Material>> {
@@ -95,11 +101,12 @@ mod tests {
     use crate::material::ShadeContext;
     use crate::shape::Shape;
     use crate::sphere::Sphere;
+    use crate::transformations::{scale, translation, rotz};
     use crate::vec::Vec;
     use crate::ray::Ray;
 
     #[test]
-    pub fn intersection1_test() {
+    fn intersection1_test() {
         let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
@@ -111,7 +118,7 @@ mod tests {
 
 
     #[test]
-    pub fn intersection2_test() {
+    fn intersection2_test() {
         let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 0.0, -5.0]), Vec::new([0.0, 0.0, 1.0]));
@@ -123,7 +130,7 @@ mod tests {
 
 
     #[test]
-    pub fn intersection3_test() {
+    fn intersection3_test() {
         let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 1.0, -5.0]), Vec::new([0.0, 0.0, 1.0]));
@@ -135,7 +142,7 @@ mod tests {
 
 
     #[test]
-    pub fn intersection4_test() {
+    fn intersection4_test() {
         let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
@@ -146,13 +153,76 @@ mod tests {
     } 
 
     #[test]
-    pub fn intersection5_test() {
+    fn intersection5_test() {
         let sphere = Sphere::new(1.0, None);
 
         let r = Ray::new(Vec::new([0.0, 0.0, 5.0]), Vec::new([0.0, 0.0, 1.0]));
 
         let mut shade_context = ShadeContext::new(); 
 
-        assert!(sphere.hit(&r, 0.0, f64::MAX , &mut shade_context))
+        assert!(!sphere.hit(&r, 0.0, f64::MAX , &mut shade_context))
     }
+
+    #[test]
+    fn intersection_transform_scale_test() {
+        let mut sphere = Sphere::new(1.0, None);
+        sphere.set_transform(scale(2.0, 2.0, 2.0));
+
+        let r = Ray::new(Vec::new([0.0, 0.0, -5.0]), Vec::new([0.0, 0.0, 1.0]));
+
+        let mut shade_context = ShadeContext::new(); 
+
+        assert!(sphere.hit(&r, 0.0, f64::MAX, &mut shade_context))
+    }
+
+
+    #[test]
+    fn intersection_transform_translate_test() {
+        let mut sphere = Sphere::new(1.0, None);
+        sphere.set_transform(translation(5.0, 0.0, 0.0));
+
+        let r = Ray::new(Vec::new([0.0, 0.0, -5.0]), Vec::new([0.0, 0.0, 1.0]));
+
+        let mut shade_context = ShadeContext::new(); 
+
+        assert!(!sphere.hit(&r, 0.0, f64::MAX, &mut shade_context))
+    }
+
+    #[test]
+    fn normal_at_test() {
+        let s: Sphere = Sphere::new(1.0, None);
+
+        let n1 = s.normal_at(&Vec::new([1.0, 0.0, 0.0]));
+        assert_eq!(n1, Vec::new([1.0, 0.0, 0.0]));
+
+        let n2 = s.normal_at(&Vec::new([0.0, 1.0, 0.0]));
+        assert_eq!(n2, Vec::new([0.0, 1.0, 0.0]));
+
+        let n3 = s.normal_at(&Vec::new([0.0, 0.0, 1.0]));
+        assert_eq!(n3, Vec::new([0.0, 0.0, 1.0]));
+
+
+        let n4 = s.normal_at(&Vec::new([f64::sqrt(3.0) / 3.0, 
+                                                                    f64::sqrt(3.0) / 3.0, 
+                                                                    f64::sqrt(3.0) / 3.0]));
+        assert_eq!(n4, Vec::new([f64::sqrt(3.0) / 3.0, f64::sqrt(3.0) / 3.0, f64::sqrt(3.0) / 3.0]));
+    }
+
+    #[test]
+    fn transformed_normal_at_test() {
+        let mut s: Sphere = Sphere::new(1.0, None);
+        s.set_transform(scale(1.0, 0.5, 1.0) * rotz(std::f64::consts::PI / 5.0));
+
+        let mut shade_context = ShadeContext::new();
+        
+        let r = Ray::new(Vec::new([0.0, 0.0, -10.0]), Vec::new([0.0, 0.0, 1.0]));
+
+        s.hit(&r, 0.0, f64::MAX, &mut shade_context);
+
+        
+
+
+
+
+    }    
 }
