@@ -16,6 +16,7 @@ mod transformations;
 mod scenes;
 mod instance;
 mod light;
+mod triangle;
 
 use shape::Shape;
 use world::World;
@@ -27,7 +28,7 @@ use crate::world::{trace};
 use crate::scenes::scene1;
 use crate::shading::diffuse_shading;
 
-const WIDTH: i64 = 1000 as i64;
+const WIDTH: i64 = 500 as i64;
 const HEIGHT: i64 = 500 as i64;
 const NUM_SAMPLES: i8 = 20; // super-sampling
 
@@ -35,12 +36,12 @@ pub fn main() {
 
     let mut canv = Canvas::new(WIDTH, HEIGHT);
 
-    let cam = ProjCamera::new(2.0);
+    let cam = ProjCamera::new(15.0);
 
     let world = scene1();
 
     for y in 0..(HEIGHT as i64) {
-        print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
+        // print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
         for x in 0..(WIDTH as i64) {
  
             // let mut color = Color::new(0.0, 0.0, 0.0);

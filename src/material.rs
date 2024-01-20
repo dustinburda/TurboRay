@@ -11,6 +11,15 @@ pub enum Material {
     Mirror, // Reflect
     Glass // Reflect + Refract 
 }
+impl Material {
+    pub fn default_matte() -> Material {
+        Material::Matte(Color::new(255.0, 255.0, 255.0), 0.1, 0.9)
+    }
+
+    pub fn default_plastic() -> Material{
+        Material::Plastic(Color::new(255.0, 255.0, 255.0), 0.1, 0.9, 0.9, 200.0)
+    }
+}
 
 pub struct ShadeContext {
     pub normal: Vec3,

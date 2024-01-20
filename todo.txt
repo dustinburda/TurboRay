@@ -11,13 +11,12 @@ Sphere ----------------------------------------------------- [DONE / TEST]
 World ------------------------------------------------------ [DONE / TEST]
 Point Light ------------------------------------------------ [DONE]
 Diffuse Shading [Matte Material] --------------------------- [DONE / ADD ATTENUATION MODE]
-Blinn-Phong Shading [Plastic Material] --------------------- [IN-PROGRESS / FLIP NORMAL????]                       
+Blinn-Phong Shading [Plastic Material] --------------------- [DONE / TEST / FLIP NORMAL????]                       
 Positionable Projective Camera                               
 
 
 TODAY:
     - Planes (Flip Normals???????)
-    - Blinn-Phong Shading
     - Positionable Camera
     - Shadows
     - Boxes
@@ -26,6 +25,7 @@ TODAY:
     - Fix Anti-Aliasing
     - Depth of Field
     - Glossy Reflections
+    - Concurrency
 
 
 
@@ -76,5 +76,5 @@ MISC
 Volumes
 Spot Lights                                                  
 Motion Blur                                                  
-Concurrency                                                   
+Concurrency ------------------------------------------------ [IN-PROGRESS]                                                    
 CSG                                                          

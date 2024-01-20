@@ -25,8 +25,8 @@ impl ProjCamera {
         ProjCamera {
             focal_distance: focal_distance,
 
-            viewport_u: Vec::new([2.0 * aspect_ratio / (WIDTH as f64), 0.0, 0.0]), //TODO: CHANGE TO 2.0
-            viewport_v: Vec::new([0.0, - 2.0 / (HEIGHT as f64), 0.0]) // TODO CHANGE to 2.0
+            viewport_u: Vec::new([7.0 * aspect_ratio / (WIDTH as f64), 0.0, 0.0]), //TODO: CHANGE TO x= 2.0. z =0.0
+            viewport_v: Vec::new([0.0, - 7.0 / (HEIGHT as f64), 0.0]) // TODO  CHANGE TO x= -2.0. z =0.0
         }
     }
 
@@ -41,7 +41,7 @@ impl Camera for ProjCamera {
 
         let orig = Vec::new([0.0, 0.0, -self.focal_distance]);
         
-        let upper_left_corner = Vec::new([-1.0 * aspect_ratio, 1.0 , 0.0]); // TODO: change to 1.0
+        let upper_left_corner = Vec::new([-3.5 * aspect_ratio, 3.5 , 0.0]); // TODO: change to x=-1.0, y=1.0, z=0.0
         let dir =  match mode {
             AliasMode::AntiAliasOff => upper_left_corner + (0.5 * self.viewport_u + 0.5 * self.viewport_v) + x * self.viewport_u + y * self.viewport_v - orig,
             AliasMode::AntiAliasOn => upper_left_corner 

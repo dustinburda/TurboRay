@@ -52,7 +52,8 @@ pub fn trace(r: &Ray, world: &World) -> Color {
         color = match material {
             // Material::Matte(color) => color, 
             Material::Matte(color, ambient, diffuse) => diffuse_shading(color, &shade_context.normal, &world.light, &shade_context.hit_point, ambient, diffuse),
-            Material::Plastic(Color, ambient, diffuse, specular, shininess) => blinn_phong_shading(color, &shade_context.normal, &shade_context.hit_point, &world.light, &r, ambient, diffuse, specular, shininess),
+            Material::Plastic(color, ambient, diffuse, specular, shininess) => blinn_phong_shading(color, &shade_context.normal, &shade_context.hit_point, &world.light, &r, ambient, diffuse, specular, shininess),
+            // Material::Plastic(Color, ambient, diffuse, specular, shininess) => diffuse_shading(color, &shade_context.normal, &world.light, &shade_context.hit_point, ambient, diffuse),
             _ => Color::new(0.0, 0.0, 0.0)
         }
     } else {

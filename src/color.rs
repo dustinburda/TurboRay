@@ -1,9 +1,26 @@
-use std::{ops::{Add, AddAssign, Mul, MulAssign, Div, DivAssign}, rc::Rc};
+use std::{ops::{Add, AddAssign, Mul, MulAssign, Div, DivAssign}, rc::Rc, f32::consts::E};
 
 // TODO: turn this into a union
 #[derive(Copy, Debug)]
 pub struct Color {
     data: [f64; 3]
+}
+
+
+const EPSILON: f64 = 0.0001;
+fn float_equal(x: f64, y: f64) -> bool {
+    f64::abs(x - y) < EPSILON
+}
+
+impl PartialEq for Color {
+    fn eq(&self, other: &Self) -> bool {
+        for i in 0..3 {
+            if !float_equal(self.data[i], other.data[i]) {
+                return false;
+            }
+        }
+        true
+    }
 }
 
 impl Clone for Color {

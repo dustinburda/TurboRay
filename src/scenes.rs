@@ -5,7 +5,7 @@ use crate::shape::Shape;
 use crate::sphere::Sphere;
 use crate::vec::Vec;
 use crate::color::Color;
-use crate::material::Material;
+use crate::material::{Material, self};
 use crate::light::PointLight;
 
 
@@ -20,10 +20,11 @@ pub fn scene1() -> World {
     sphere2.set_transform(translation(1.0, 0.0, 1.0) * scale(1.0, 1.0, 1.0));
 
     let material3 = Rc::new(Material::Matte(Color::new(255.0, 0.0, 0.0), 0.2, 0.9));
+    // let material3 = Rc::new(Material::Plastic(Color::new(255.0, 0.0, 0.0), 0.2, 0.7, 0.99, 400.0));
     let mut sphere3: Box<dyn Shape> = Box::new(Sphere::new(1.0, Some(material3)));
-    sphere3.set_transform(translation(0.0, 0.0, 3.0));
+    sphere3.set_transform(translation(0.0, 0.0, -5.0));
 
-    let light: PointLight = PointLight::new(1.0, Vec::new([1.0, 1.0, 0.5]));
+    let light: PointLight = PointLight::new(1.0, Vec::new([-10.0, 10.0, -20.0]));
 
     let mut world = World::new();
 
