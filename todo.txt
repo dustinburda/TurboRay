@@ -37,8 +37,20 @@ Monday:
     BVH
 
 Tuesday: 
+    OBJ Loader
     Meshes
-    Textures
+    Flat Shading
+    Gourard Shading
+    Phong Shading
+
+Wednesday:
+    Image Textures
+    Noise Textures
+    Normal Maps
+
+Thursday:
+    Torus
+    Area Lights + Soft Shadows
 
 
 DISTRIBUTED RENDERING
