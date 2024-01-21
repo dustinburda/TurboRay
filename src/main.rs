@@ -17,6 +17,7 @@ mod scenes;
 mod instance;
 mod light;
 mod triangle;
+mod plane;
 
 use shape::Shape;
 use world::World;
@@ -26,24 +27,26 @@ use crate::canvas::Canvas;
 use crate::color::Color;
 use crate::world::{trace};
 use crate::scenes::scene1;
-use crate::shading::diffuse_shading;
 
-const WIDTH: i64 = 500 as i64;
+const WIDTH: i64 = 1000 as i64;
 const HEIGHT: i64 = 500 as i64;
 const NUM_SAMPLES: i8 = 20; // super-sampling
 
 pub fn main() {
-
     let mut canv = Canvas::new(WIDTH, HEIGHT);
 
-    let cam = ProjCamera::new(15.0);
+    let cam = ProjCamera::new(5.0);
 
     let world = scene1();
 
+    // println!("BEGIN=============");
     for y in 0..(HEIGHT as i64) {
-        // print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
+       print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
         for x in 0..(WIDTH as i64) {
- 
+           //  println!("B===========================");
+            if y == 5 && x == 5 {
+              //  println!("HELLO");
+            }
             // let mut color = Color::new(0.0, 0.0, 0.0);
             // for i in 0..NUM_SAMPLES {
             //     let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOn);
@@ -54,15 +57,18 @@ pub fn main() {
 
 
             let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOff);
+          
+            // println!("Ray: {:?}",r);
             
             let color = trace(&r, &world);
             
-
+            // println!("Color: {:?}",color);
+            // println!("E===========================");
             canv.set_pixel_at(x, y, color);
         } 
     }
     print!("\n");
-    canv.flush_ppm(String::from("image.ppm"));
+    canv.flush_ppm(String::from("rust_image.ppm"));
     
 }
 

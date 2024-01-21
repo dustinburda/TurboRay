@@ -1,6 +1,6 @@
 use crate::canvas::Canvas;
 use crate::material::{ShadeContext, Material};
-use crate::shading::{diffuse_shading, blinn_phong_shading};
+use crate::shading::{diffuse, specular};
 use crate::shape::Shape;
 use crate::color::Color;
 use crate::ray::Ray;
@@ -50,14 +50,13 @@ pub fn trace(r: &Ray, world: &World) -> Color {
         let material = (*shade_context.material.unwrap()).clone();
 
         color = match material {
-            // Material::Matte(color) => color, 
-            Material::Matte(color, ambient, diffuse) => diffuse_shading(color, &shade_context.normal, &world.light, &shade_context.hit_point, ambient, diffuse),
-            Material::Plastic(color, ambient, diffuse, specular, shininess) => blinn_phong_shading(color, &shade_context.normal, &shade_context.hit_point, &world.light, &r, ambient, diffuse, specular, shininess),
-            // Material::Plastic(Color, ambient, diffuse, specular, shininess) => diffuse_shading(color, &shade_context.normal, &world.light, &shade_context.hit_point, ambient, diffuse),
+            Material::Matte(color, ambient, diffuse) => crate::shading::diffuse(color, &shade_context.normal, &world.light, &shade_context.hit_point, ambient, diffuse),
+            Material::Plastic(color, ka, kd,ks, shininess) => crate::shading::diffuse(color, &shade_context.normal, &world.light, &shade_context.hit_point, ka, kd) 
+                                                                                       + crate::shading::specular(color, &shade_context.normal, &shade_context.hit_point, &world.light, &r, ks, shininess),
             _ => Color::new(0.0, 0.0, 0.0)
         }
     } else {
-        color = Color::new(0.0, 255.0 , 0.0);
+        color = Color::new(0.0, 0.0 , 255.0);
     }
 
     color

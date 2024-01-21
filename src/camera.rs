@@ -41,15 +41,15 @@ impl Camera for ProjCamera {
 
         let orig = Vec::new([0.0, 0.0, -self.focal_distance]);
         
-        let upper_left_corner = Vec::new([-3.5 * aspect_ratio, 3.5 , 0.0]); // TODO: change to x=-1.0, y=1.0, z=0.0
+        let upper_left_corner = Vec::new([-3.5 * aspect_ratio, 3.5 , 10.0]); // TODO: change to x=-1.0, y=1.0, z=0.0
         let dir =  match mode {
-            AliasMode::AntiAliasOff => upper_left_corner + (0.5 * self.viewport_u + 0.5 * self.viewport_v) + x * self.viewport_u + y * self.viewport_v - orig,
+            AliasMode::AntiAliasOff => upper_left_corner + /*(0.5 * self.viewport_u + 0.5 * self.viewport_v) +*/ x * self.viewport_u + y * self.viewport_v - orig,
             AliasMode::AntiAliasOn => upper_left_corner 
                                         + ((rand::thread_rng().gen_range(0.0..1.0)) * self.viewport_u + (rand::thread_rng().gen_range(0.0..1.0)) * self.viewport_v) 
                                         + x * self.viewport_u + y * self.viewport_v - orig
         };
     
-        Ray::new(orig, dir)
+        Ray::new(orig, dir.normal())
     }
 }
 

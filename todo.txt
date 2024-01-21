@@ -16,53 +16,61 @@ Positionable Projective Camera
 
 
 TODAY:
-    - Planes (Flip Normals???????)
-    - Positionable Camera
-    - Shadows
-    - Boxes
-    - Reflections
-    - Procedural Textures
-    - Fix Anti-Aliasing
-    - Depth of Field
+    - Finish Shading Unit Tests
+    - Planes, test transformations
+    - Positionable Camera --> RT Ground Up
+    - Shadows --> Scratch Pixel + RT Challenge
+TOMORROW:
+    - Triangles --> Scratch Pixel + RT Challenge
+    - Boxes --> Scratch Pixel + RT Challenge
+    - Reflections --> RT Challenge + Scratch Pixel
+    - Disks + Quads
+    - Procedural Textures -> RT Challenge + Scratch Pixel
+    - Fix Anti-Aliasing -> RT Ground Up
+    - Depth of Field -> RT Ground Up + RT One Weekend
     - Glossy Reflections
-    - Concurrency
+    - Concurrency --> Rayon Crate
 
+Monday:
+    Cones and Cylinders
+    Refraction
+    BVH
 
+Tuesday: 
+    Meshes
+    Textures
 
 
 DISTRIBUTED RENDERING
 Anti-Aliasing via supersampling ---------------------------- [DONE / Add Jittered Sampling/ Adaptive Super Sampling]
 Soft Shadows + Area Lights                                   
-Depth of Field                                               
-Glossy Reflection                                            
+Depth of Field --------------------------------------------- [IN-PROGRESS]                                               
+Glossy Reflection ------------------------------------------ [IN-PROGRESS]                                             
 
 ADDITIONAL PRIMITIVES
-Cone and Cylinder                                            
-Planes ----------------------------------------------------- [IN-PROGRESS]                                     
-Disks + Quads                                                
+Cone and Cylinder ------------------------------------------ [IN-PROGRESS]                                            
+Planes ----------------------------------------------------- [DONE / TEST + ADD TRANSFORMATIONS]                                     
+Disks + Quads ---------------------------------------------- [IN-PROGRESS]                                               
 Torus
 Box                                                                                                           
 
 ACCELERATION STRUCTURES
-Bounding Volume Hierarchy                                    
+Bounding Volume Hierarchy ---------------------------------- [IN-PROGRESS]                                    
 
 
 LIGHT TRANSPORT
-Reflection   
-Metals                                                
+Reflection ------------------------------------------------- [IN-PROGRESS / METALS?]                                                   
 Refraction                                                   
 Realistic Refraction                                         
-Shadows                                                      
+Shadows ---------------------------------------------------- [IN-PROGRESS]                                                      
                                                   
 
 TEXTURES
-Procedural Textures                                          
+Procedural Textures ---------------------------------------- [IN-PROGRESS]                                           
 Noise Textures  
 Image Textures                                                                                             
-Normal Maps + Bump Maps                                      
+Normal Maps                                    
 Environment Maps  
-
-
 
 MESHES
 Triangle
