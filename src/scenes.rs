@@ -16,14 +16,15 @@ pub fn scene1() -> World {
 
     sphere1.set_transform(translation(1.0, 0.0, -10.0) * scale(1.0, 1.0, 1.0));
 
-    let material2 = Rc::new(Material::Matte(Color::new(255.0, 51.0, 255.0), 0.1, 0.9));
+    //let material2 = Rc::new(Material::Matte(Color::new(255.0, 51.0, 255.0), 0.1, 0.9));
+    let material2 = Rc::new(Material::Plastic(Color::new(255.0, 0.0, 0.0), 0.1, 0.9, 0.9, 200.0));
     let mut sphere2: Box<dyn Shape> = Box::new(Sphere::new(1.0, Some(material2)));
-    sphere2.set_transform(translation(-3.0, 0.0, -6.0) * scale(1.0, 1.0, 1.0));
+    sphere2.set_transform(translation(-1.0, 0.0, 5.0) * scale(1.0, 1.0, 1.0));
 
     // let material3 = Rc::new(Material::Matte(Color::new(255.0, 51.0, 251.0), 0.1, 0.9));
     let material3 = Rc::new(Material::Plastic(Color::new(255.0, 51.0, 255.0), 0.1, 0.9, 0.9, 200.0));
     let mut sphere3: Box<dyn Shape> = Box::new(Sphere::new(1.0, Some(material3)));
-    sphere3.set_transform(translation(0.0, 0.0, 5.0));
+    sphere3.set_transform(translation(7.0, 0.0, 17.0));
 
 
     let material4 = Rc::new(Material::Matte(Color::new(0.0, 0.0, 255.0), 0.1, 0.9));
@@ -32,8 +33,8 @@ pub fn scene1() -> World {
     let material5 = Rc::new(Material::Matte(Color::new(255.0, 0.0, 0.0), 0.1, 0.9));
     let mut plane2: Box<dyn Shape> = Box::new(Plane::new(Vec::new([-4.0, 0.0, 0.0]), Vec::new([1.0, 0.0, 0.0]), Some(material5)));
 
-    let material6 = Rc::new(Material::Matte(Color::new(0.0, 255.0, 0.0), 0.1, 0.9));
-    let mut plane3: Box<dyn Shape> = Box::new(Plane::new(Vec::new([0.0, 0.0, 6.0]), Vec::new([0.0, 0.0, -1.0]), Some(material6)));
+    let material6 = Rc::new(Material::Matte(Color::new(125.0, 125.0, 125.0), 0.1, 0.9));
+    let mut plane3: Box<dyn Shape> = Box::new(Plane::new(Vec::new([0.0, 0.0, 20.0]), Vec::new([0.0, 0.0, -1.0]), Some(material6)));
 
 
 
@@ -42,7 +43,7 @@ pub fn scene1() -> World {
     let mut world = World::new();
 
     // world.add_shape(sphere1);
-    // world.add_shape(sphere2);
+    world.add_shape(sphere2);
     world.add_shape(sphere3);
     world.add_shape(plane1);
     world.add_shape(plane2);

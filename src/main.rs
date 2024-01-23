@@ -44,9 +44,11 @@ pub fn main() {
        print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
         for x in 0..(WIDTH as i64) {
            //  println!("B===========================");
-            if y == 5 && x == 5 {
-              //  println!("HELLO");
-            }
+
+           if y == 0 && x == 8 {
+            print!("Breakpoint here1");
+           }
+
             // let mut color = Color::new(0.0, 0.0, 0.0);
             // for i in 0..NUM_SAMPLES {
             //     let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOn);
@@ -58,7 +60,7 @@ pub fn main() {
 
             let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOff);
           
-            // println!("Ray: {:?}",r);
+            // // println!("Ray: {:?}",r);
             
             let color = trace(&r, &world);
             

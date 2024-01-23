@@ -10,8 +10,9 @@ Viewport + Simple Camera ----------------------------------- [DONE / TEST]
 Sphere ----------------------------------------------------- [DONE / TEST]
 World ------------------------------------------------------ [DONE / TEST]
 Point Light ------------------------------------------------ [DONE]
+Multiple Point Lights
 Diffuse Shading [Matte Material] --------------------------- [DONE / ADD ATTENUATION MODE]
-Blinn-Phong Shading [Plastic Material] --------------------- [DONE / TEST / FLIP NORMAL????]                       
+Blinn-Phong Shading [Plastic Material] --------------------- [DONE / FLIP NORMAL????]                       
 Positionable Projective Camera                               
 
 
@@ -19,36 +20,38 @@ TODAY:
     - Finish Shading Unit Tests
     - Planes, test transformations
     - Positionable Camera --> RT Ground Up
-    - Shadows --> Scratch Pixel + RT Challenge
-TOMORROW:
-    - Triangles --> Scratch Pixel + RT Challenge
-    - Boxes --> Scratch Pixel + RT Challenge
-    - Reflections --> RT Challenge + Scratch Pixel
-    - Disks + Quads
-    - Procedural Textures -> RT Challenge + Scratch Pixel
-    - Fix Anti-Aliasing -> RT Ground Up
     - Depth of Field -> RT Ground Up + RT One Weekend
+    - Reflections --> RT Challenge + Scratch Pixel
     - Glossy Reflections
-    - Concurrency --> Rayon Crate
+    - Procedural Textures
+    - Multiple Point Lights
 
-Monday:
-    Cones and Cylinders
+
+
+Tuesday:
     Refraction
+    Cones and Cylinders
+    Triangles --> Scratch Pixel + RT Challenge
+    Boxes --> Scratch Pixel + RT Challenge
+    Disks + Quads
+    Instances
     BVH
+    Concurrency --> Rayon Crate
 
-Tuesday: 
+Wednesday: 
     OBJ Loader
     Meshes
     Flat Shading
     Gourard Shading
     Phong Shading
 
-Wednesday:
+Thursday:
     Image Textures
     Noise Textures
     Normal Maps
+    Fix Anti-Aliasing -> RT Ground Up
 
-Thursday:
+Friday:
     Torus
     Area Lights + Soft Shadows
 
@@ -63,7 +66,7 @@ ADDITIONAL PRIMITIVES
 Cone and Cylinder ------------------------------------------ [IN-PROGRESS]                                            
 Planes ----------------------------------------------------- [DONE / TEST + ADD TRANSFORMATIONS]                                     
 Disks + Quads ---------------------------------------------- [IN-PROGRESS]                                               
-Torus
+Torus ---------------------------------------------- [IN-PROGRESS]
 Box                                                                                                           
 
 ACCELERATION STRUCTURES
@@ -74,7 +77,7 @@ LIGHT TRANSPORT
 Reflection ------------------------------------------------- [IN-PROGRESS / METALS?]                                                   
 Refraction                                                   
 Realistic Refraction                                         
-Shadows ---------------------------------------------------- [IN-PROGRESS]                                                      
+Shadows ---------------------------------------------------- [DONE / TEST]                                                      
                                                   
 
 TEXTURES
@@ -86,6 +89,7 @@ Environment Maps
 
 MESHES
 Triangle
+Instances
 OBJ loader                                                   
 Mesh                                                         
 Flat Shading                                                 
