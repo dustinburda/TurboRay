@@ -35,10 +35,10 @@ Tuesday:
     Boxes --> Scratch Pixel + RT Challenge
     Disks + Quads
     Instances
-    BVH
     Concurrency --> Rayon Crate
 
 Wednesday: 
+    BVH
     OBJ Loader
     Meshes
     Flat Shading
@@ -54,6 +54,8 @@ Thursday:
 Friday:
     Torus
     Area Lights + Soft Shadows
+    Environment Maps
+    Spot Lights
 
 
 DISTRIBUTED RENDERING

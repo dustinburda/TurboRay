@@ -11,10 +11,11 @@ use crate::plane::{Plane, self};
 
 
 pub fn scene1() -> World {
-    let material1 = Rc::new(Material::Matte(Color::new(100.0, 51.0, 255.0), 0.1, 0.9));
+    // let material1 = Rc::new(Material::Matte(Color::new(100.0, 51.0, 255.0), 0.1, 0.9));
+    let material1 = Rc::new(Material::Mirror);
     let mut sphere1: Box<dyn Shape> = Box::new(Sphere::new(1.0, Some(material1)));
 
-    sphere1.set_transform(translation(1.0, 0.0, -10.0) * scale(1.0, 1.0, 1.0));
+    sphere1.set_transform(translation(3.0, 0.0,8.0) * scale(1.0, 1.0, 1.0));
 
     //let material2 = Rc::new(Material::Matte(Color::new(255.0, 51.0, 255.0), 0.1, 0.9));
     let material2 = Rc::new(Material::Plastic(Color::new(255.0, 0.0, 0.0), 0.1, 0.9, 0.9, 200.0));
@@ -36,18 +37,21 @@ pub fn scene1() -> World {
     let material6 = Rc::new(Material::Matte(Color::new(125.0, 125.0, 125.0), 0.1, 0.9));
     let mut plane3: Box<dyn Shape> = Box::new(Plane::new(Vec::new([0.0, 0.0, 20.0]), Vec::new([0.0, 0.0, -1.0]), Some(material6)));
 
+    let material7 = Rc::new(Material::Matte(Color::new(125.0, 125.0, 125.0), 0.1, 0.9));
+    let mut plane4: Box<dyn Shape> = Box::new(Plane::new(Vec::new([0.0, 0.0, -20.0]), Vec::new([0.0, 0.0, -1.0]), Some(material7)));
 
 
     let light: PointLight = PointLight::new(1.0, Vec::new([5.0, 10.0, -10.0]));
 
     let mut world = World::new();
 
-    // world.add_shape(sphere1);
+    world.add_shape(sphere1);
     world.add_shape(sphere2);
-    world.add_shape(sphere3);
+     world.add_shape(sphere3);
     world.add_shape(plane1);
     world.add_shape(plane2);
     world.add_shape(plane3);
+    world.add_shape(plane4);
 
     world.add_light(light);
 

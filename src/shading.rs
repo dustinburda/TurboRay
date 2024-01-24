@@ -1,8 +1,11 @@
+use num_traits::pow;
+
 use crate::color::Color;
 use crate::light::PointLight;
 use crate::material::ShadeContext;
 use crate::ray::Ray;
 use crate::vec::{Vec, Vec3, dot, reflect};
+use crate::world::{World, trace};
 
 
 pub fn diffuse(color: Color, normal: &Vec3, light: &PointLight, hit_point: &Vec3, ambient: f64, diffuse: f64) -> Color {
@@ -44,6 +47,33 @@ pub fn specular(color: Color, normal: &Vec3, hit_point: &Vec3, light: &PointLigh
     let final_color = Color::new(255.0, 255.0, 255.0) * light.intensity() * specular_illumination;
     
     final_color
+}
+
+pub fn shadow(hit_point: &Vec3, light: &PointLight, world: &World) -> bool {
+    let mut shadow_context: ShadeContext = ShadeContext::new();
+        let shadow_ray = Ray::new(hit_point.clone(), light.pos() - *hit_point);
+
+        let in_shadow: bool = world.hit(&shadow_ray, &mut shadow_context, 0.0000000000001);
+        let shadow_ray_intersection_point = shadow_context.hit_point;
+        let shadowPoint_hitPoint_dist =(shadow_ray_intersection_point - *hit_point).magnitude();
+        let light_hitPoint_dist = (light.pos() - *hit_point).magnitude();
+
+        in_shadow && ((shadow_ray_intersection_point - *hit_point).magnitude() < (light.pos() - *hit_point).magnitude())
+}
+
+pub fn reflection(r: &Ray, hit_point: &Vec3, normal: &Vec3, world: &World, max_depth: i8) -> Color {
+    let mut r_copy = (*r).clone();
+
+    if (dot(r_copy.dir(), *normal) >= 0.0) {
+        r_copy.set_dir( -1.0 * r.dir() );
+    }
+   
+    
+    let reflected_dir = reflect(*normal, r_copy.dir().normal());
+
+    let reflected_ray = Ray::new(*hit_point, reflected_dir);
+
+    0.85 * trace(&reflected_ray, world, max_depth, 0.001)
 }
 
 #[cfg(test)]

@@ -1,9 +1,9 @@
 use crate::canvas::Canvas;
 use crate::material::{ShadeContext, Material};
-use crate::shading::{diffuse, specular};
+use crate::shading::{diffuse, specular, shadow, reflection};
 use crate::shape::Shape;
 use crate::color::Color;
-use crate::ray::Ray;
+use crate::ray::{Ray, self};
 use crate::light::{PointLight, self};
 
 pub struct World {
@@ -38,39 +38,38 @@ impl World {
     }
 }
 
-pub fn trace(r: &Ray, world: &World) -> Color {
+pub fn trace(r: &Ray, world: &World, max_depth: i8, epsilon: f64) -> Color {
+
+    if(max_depth == 0) {
+        return Color::new(0.0, 0.0, 0.0);
+    }
+
     let mut shade_context: ShadeContext = ShadeContext::new();
 
-    let mut hit = world.hit(r, &mut shade_context, 0.0);
+    let mut hit = world.hit(r, &mut shade_context, epsilon);
     
     let mut color: Color = Color::new(0.0, 0.0, 0.0);
 
     if hit {
-        
-        let mut shadow_context: ShadeContext = ShadeContext::new();
-        let shadow_ray = Ray::new(shade_context.hit_point.clone(), world.light.pos() - shade_context.hit_point);
 
-        let in_shadow: bool = world.hit(&shadow_ray, &mut shadow_context, 0.0000000000001);
-        let shadow_ray_intersection_point = shadow_context.hit_point;
-        let shadowPoint_hitPoint_dist =(shadow_ray_intersection_point - shade_context.hit_point).magnitude();
-        let light_hitPoint_dist = (world.light.pos() - shade_context.hit_point).magnitude();
+        let in_shadow = shadow(&shade_context.hit_point, &world.light, &world);
+        let material = (*shade_context.material.unwrap()).clone();
 
-
-
-        if in_shadow && ((shadow_ray_intersection_point - shade_context.hit_point).magnitude() < (world.light.pos() - shade_context.hit_point).magnitude()) {
+        if in_shadow && !matches!(material, Material::Glass)  {
             color = Color::new(0.0, 0.0, 0.0);
         } else {
-            let material = (*shade_context.material.unwrap()).clone();
+            // let material = (*shade_context.material.unwrap()).clone();
 
             color = match material {
                 Material::Matte(color, ambient, diffuse) => crate::shading::diffuse(color, &shade_context.normal, &world.light, &shade_context.hit_point, ambient, diffuse),
                 Material::Plastic(color, ka, kd,ks, shininess) => crate::shading::diffuse(color, &shade_context.normal, &world.light, &shade_context.hit_point, ka, kd) 
                                                                                            + crate::shading::specular(color, &shade_context.normal, &shade_context.hit_point, &world.light, &r, ks, shininess),
-                _ => Color::new(1.0, 1.0, 1.0)
+                Material::Mirror => reflection(r, &shade_context.hit_point, &shade_context.normal, &world, max_depth -1),
+                _ => Color::new(0.0, 255.0, 0.0)
             }
         }    
     } else {
-        color = Color::new(255.0, 51.0 , 255.0);
+        color = Color::new(0.0, 0.0 , 0.0);
     }
 
     color

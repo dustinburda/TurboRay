@@ -23,6 +23,8 @@ impl PartialEq for Color {
     }
 }
 
+impl Eq for Color {}
+
 impl Clone for Color {
     fn clone(&self) -> Color {
         *self

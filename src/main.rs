@@ -19,6 +19,8 @@ mod light;
 mod triangle;
 mod plane;
 
+use std::i8::MAX;
+
 use shape::Shape;
 use world::World;
 
@@ -31,6 +33,7 @@ use crate::scenes::scene1;
 const WIDTH: i64 = 1000 as i64;
 const HEIGHT: i64 = 500 as i64;
 const NUM_SAMPLES: i8 = 20; // super-sampling
+const MAX_DEPTH: i8 = 10;
 
 pub fn main() {
     let mut canv = Canvas::new(WIDTH, HEIGHT);
@@ -62,7 +65,7 @@ pub fn main() {
           
             // // println!("Ray: {:?}",r);
             
-            let color = trace(&r, &world);
+            let color = trace(&r, &world, MAX_DEPTH, 0.0);
             
             // println!("Color: {:?}",color);
             // println!("E===========================");

@@ -1,7 +1,7 @@
 use crate::vec::Vec3;
 use crate::matrix::Matrix;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Ray {
     orig: Vec3,
     dir: Vec3
