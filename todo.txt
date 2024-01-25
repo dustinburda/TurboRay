@@ -18,27 +18,44 @@ Positionable Projective Camera
 
 TODAY:
     - Finish Shading Unit Tests
+    - Rework Shading Model [RIGHT NOW]
+
+
+
+
     - Planes, test transformations
+    - Instances
+
+
+
+    - Reflections --> RT Challenge + Scratch Pixel
+    - Partial Reflections
+    - Glossy Reflections
+
+
+
+    - Refraction
+    - Multiple Point Lights (add specular intensity, diffuse intensity)
+
+
     - Positionable Camera --> RT Ground Up
     - Depth of Field -> RT Ground Up + RT One Weekend
-    - Reflections --> RT Challenge + Scratch Pixel
-    - Glossy Reflections
+
+    
     - Procedural Textures
-    - Multiple Point Lights
+    - BVH --> Bounding Boxes should apply to instances
 
 
 
 Tuesday:
-    Refraction
     Cones and Cylinders
     Triangles --> Scratch Pixel + RT Challenge
     Boxes --> Scratch Pixel + RT Challenge
     Disks + Quads
-    Instances
     Concurrency --> Rayon Crate
 
 Wednesday: 
-    BVH
+
     OBJ Loader
     Meshes
     Flat Shading
@@ -49,18 +66,19 @@ Thursday:
     Image Textures
     Noise Textures
     Normal Maps
+    Environment Maps
     Fix Anti-Aliasing -> RT Ground Up
 
 Friday:
     Torus
     Area Lights + Soft Shadows
-    Environment Maps
     Spot Lights
+    CSG (can add optional Vec of hits)
 
 
 DISTRIBUTED RENDERING
 Anti-Aliasing via supersampling ---------------------------- [DONE / Add Jittered Sampling/ Adaptive Super Sampling]
-Soft Shadows + Area Lights                                   
+Soft Shadows + Area Lights --------------------------------- [IN-PROGRESS]                                     
 Depth of Field --------------------------------------------- [IN-PROGRESS]                                               
 Glossy Reflection ------------------------------------------ [IN-PROGRESS]                                             
 
@@ -68,8 +86,8 @@ ADDITIONAL PRIMITIVES
 Cone and Cylinder ------------------------------------------ [IN-PROGRESS]                                            
 Planes ----------------------------------------------------- [DONE / TEST + ADD TRANSFORMATIONS]                                     
 Disks + Quads ---------------------------------------------- [IN-PROGRESS]                                               
-Torus ---------------------------------------------- [IN-PROGRESS]
-Box                                                                                                           
+Torus ------------------------------------------------------ [IN-PROGRESS]
+Box -------------------------------------------------------- [IN-PROGRESS]                                                                                                          
 
 ACCELERATION STRUCTURES
 Bounding Volume Hierarchy ---------------------------------- [IN-PROGRESS]                                    
@@ -77,7 +95,7 @@ Bounding Volume Hierarchy ---------------------------------- [IN-PROGRESS]
 
 LIGHT TRANSPORT
 Reflection ------------------------------------------------- [IN-PROGRESS / METALS?]                                                   
-Refraction                                                   
+Refraction ------------------------------------------------- [IN-PROGRESS]                                                      
 Realistic Refraction                                         
 Shadows ---------------------------------------------------- [DONE / TEST]                                                      
                                                   

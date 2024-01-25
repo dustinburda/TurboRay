@@ -8,8 +8,9 @@ pub enum Material {
     Matte(Color, f64, f64), //Diffuse
     Plastic(Color, f64, f64, f64, f64), //Blinn-Phong, specular highlights
     Metal (Color), //Reflect + Tint
-    Mirror, // Reflect
-    Glass // Reflect + Refract 
+    Mirror (Color, f64, f64, f64, f64), // diffuse color, diffuse coeff, reflective, specular, shininess
+    Glass, // Reflect + Refract
+    PartiallyReflective(Color, f64)
 }
 impl Material {
     pub fn default_matte() -> Material {

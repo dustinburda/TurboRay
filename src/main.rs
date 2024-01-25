@@ -44,7 +44,7 @@ pub fn main() {
 
     // println!("BEGIN=============");
     for y in 0..(HEIGHT as i64) {
-       print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
+      print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
         for x in 0..(WIDTH as i64) {
            //  println!("B===========================");
 
@@ -56,14 +56,14 @@ pub fn main() {
             // for i in 0..NUM_SAMPLES {
             //     let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOn);
             
-            //     color += trace(&r, &world);
+            //     color += trace(&r, &world, MAX_DEPTH, 0.0);
             // }
             // color /= (NUM_SAMPLES as f64);
 
 
             let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOff);
           
-            // // println!("Ray: {:?}",r);
+            // println!("Ray: {:?}",r);
             
             let color = trace(&r, &world, MAX_DEPTH, 0.0);
             

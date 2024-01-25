@@ -1,5 +1,3 @@
-use num_traits::pow;
-
 use crate::color::Color;
 use crate::light::PointLight;
 use crate::material::ShadeContext;
@@ -28,7 +26,7 @@ pub fn diffuse(color: Color, normal: &Vec3, light: &PointLight, hit_point: &Vec3
     final_color
 }
 
-pub fn specular(color: Color, normal: &Vec3, hit_point: &Vec3, light: &PointLight, r: &Ray, specular: f64, shininess: f64) -> Color {
+pub fn specular(normal: &Vec3, hit_point: &Vec3, light: &PointLight, r: &Ray, specular: f64, shininess: f64) -> Color {
     let light_vec = light.pos() - *hit_point;
 
     let mut specular_illumination: f64 = 0.0;
@@ -50,7 +48,8 @@ pub fn specular(color: Color, normal: &Vec3, hit_point: &Vec3, light: &PointLigh
 }
 
 pub fn shadow(hit_point: &Vec3, light: &PointLight, world: &World) -> bool {
-    let mut shadow_context: ShadeContext = ShadeContext::new();
+        // TODO: refactor here
+        let mut shadow_context: ShadeContext = ShadeContext::new();
         let shadow_ray = Ray::new(hit_point.clone(), light.pos() - *hit_point);
 
         let in_shadow: bool = world.hit(&shadow_ray, &mut shadow_context, 0.0000000000001);
@@ -61,19 +60,23 @@ pub fn shadow(hit_point: &Vec3, light: &PointLight, world: &World) -> bool {
         in_shadow && ((shadow_ray_intersection_point - *hit_point).magnitude() < (light.pos() - *hit_point).magnitude())
 }
 
-pub fn reflection(r: &Ray, hit_point: &Vec3, normal: &Vec3, world: &World, max_depth: i8) -> Color {
-    let mut r_copy = (*r).clone();
+pub fn reflection(r: &Ray, reflective: f64, hit_point: &Vec3, normal: &Vec3, world: &World, max_depth: i8) -> Color {
+    let mut normal_copy = (*normal).clone();
 
-    if (dot(r_copy.dir(), *normal) >= 0.0) {
-        r_copy.set_dir( -1.0 * r.dir() );
+    if (dot(r.dir(), *normal) >= 0.0) {
+        normal_copy *= -1.0;
     }
    
     
-    let reflected_dir = reflect(*normal, r_copy.dir().normal());
+    let reflected_dir = reflect(normal_copy, r.dir().normal());
 
     let reflected_ray = Ray::new(*hit_point, reflected_dir);
 
-    0.85 * trace(&reflected_ray, world, max_depth, 0.001)
+    reflective * trace(&reflected_ray, world, max_depth, 0.001)
+}
+
+pub fn refraction() -> Color {
+    todo!()
 }
 
 #[cfg(test)]
@@ -92,7 +95,7 @@ mod tests {
         let normal1 = Vec::new([0.0, 0.0, -1.0]);
         let hitpoint1 = Vec::new([0.0, 0.0, 0.0]);
         let color1 = diffuse(obj_color1, &normal1, &light1, &hitpoint1, 0.1, 0.9) +
-                        specular(obj_color1,&normal1, &hitpoint1,&light1, &ray1, 0.9, 200.0);
+                        specular(&normal1, &hitpoint1,&light1, &ray1, 0.9, 200.0);
 
         assert_eq!(color1, Color::new(255.0 * 1.9, 255.0 * 1.9, 255.0 * 1.9));
 
@@ -100,7 +103,7 @@ mod tests {
         let light2 = PointLight::new(1.0, Vec::new([0.0, 0.0, -10.0]));
         let ray2 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, -f64::sqrt(2.0) / 2.0, f64::sqrt(2.0) / 2.0]));
         let color2 =    diffuse(obj_color1, &normal1, &light2, &hitpoint1, 0.1, 0.9) +
-                                specular(obj_color1, &normal1, &hitpoint1,&light2, &ray2, 0.9, 200.0);
+                                specular(&normal1, &hitpoint1,&light2, &ray2, 0.9, 200.0);
 
         assert_eq!(color2, Color::new(255.0, 255.0, 255.0));
 
@@ -108,7 +111,7 @@ mod tests {
         let light3 = PointLight::new(1.0, Vec::new([0.0, 10.0, -10.0]));
         let ray3 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
         let color3 =    diffuse(obj_color1, &normal1, &light3, &hitpoint1, 0.1, 0.9,) +
-                                specular(obj_color1,&normal1,&hitpoint1,&light3, &ray3, 0.9, 200.0);
+                                specular(&normal1,&hitpoint1,&light3, &ray3, 0.9, 200.0);
 
         assert_eq!(color3, Color::new(187.781, 187.781, 187.781));
 
