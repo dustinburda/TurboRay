@@ -17,40 +17,54 @@ Positionable Projective Camera
 
 
 TODAY:
-    - Finish Shading Unit Tests
+       
+
+
     - Rework Shading Model [RIGHT NOW]
+        - don't prematurely color black when object lies in Shadow
+        - add ambient light by default
+
+        - overhaul shading model (diffuse color, diffuse coeff, specular coeff, reflective, shininess)
+        
+        - multiple lights:
+            for light in lights ... 
+                specular, diffuse, etc
+    - Multiple Point Lights (add specular intensity, diffuse intensity)
 
 
+    - Positionable Camera --> RT Ground Up (8, 9)
+    - Depth of Field -> RT Ground Up + RT One Weekend (6, 10)
 
 
-    - Planes, test transformations
+    
     - Instances
+        -fix normal check in shape (do I even flip the normal? I think I'm flipping ray dir)
+        - plane not showing up in the back 
+        - figure out why plane in back is not rendering
+        - instances (should flip normal)
+    - Planes, test transformations
+
+
+    - Boxes --> Scratch Pixel + RT Challenge
+    - Cones and Cylinders
+    - Triangles --> Scratch Pixel + RT Challenge
 
 
 
     - Reflections --> RT Challenge + Scratch Pixel
     - Partial Reflections
     - Glossy Reflections
-
-
-
     - Refraction
-    - Multiple Point Lights (add specular intensity, diffuse intensity)
 
 
-    - Positionable Camera --> RT Ground Up
-    - Depth of Field -> RT Ground Up + RT One Weekend
-
-    
     - Procedural Textures
     - BVH --> Bounding Boxes should apply to instances
 
-
-
-Tuesday:
     Cones and Cylinders
     Triangles --> Scratch Pixel + RT Challenge
     Boxes --> Scratch Pixel + RT Challenge
+
+Tuesday:
     Disks + Quads
     Concurrency --> Rayon Crate
 

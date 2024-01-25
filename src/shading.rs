@@ -54,11 +54,13 @@ pub fn shadow(hit_point: &Vec3, light: &PointLight, world: &World) -> bool {
 
         let in_shadow: bool = world.hit(&shadow_ray, &mut shadow_context, 0.0000000000001);
         let shadow_ray_intersection_point = shadow_context.hit_point;
+        
         let shadowPoint_hitPoint_dist =(shadow_ray_intersection_point - *hit_point).magnitude();
         let light_hitPoint_dist = (light.pos() - *hit_point).magnitude();
 
-        in_shadow && ((shadow_ray_intersection_point - *hit_point).magnitude() < (light.pos() - *hit_point).magnitude())
-}
+        //in_shadow && ((shadow_ray_intersection_point - *hit_point).magnitude() < (light.pos() - *hit_point).magnitude())
+        in_shadow && (shadowPoint_hitPoint_dist < light_hitPoint_dist)
+    }
 
 pub fn reflection(r: &Ray, reflective: f64, hit_point: &Vec3, normal: &Vec3, world: &World, max_depth: i8) -> Color {
     let mut normal_copy = (*normal).clone();
@@ -95,7 +97,7 @@ mod tests {
         let normal1 = Vec::new([0.0, 0.0, -1.0]);
         let hitpoint1 = Vec::new([0.0, 0.0, 0.0]);
         let color1 = diffuse(obj_color1, &normal1, &light1, &hitpoint1, 0.1, 0.9) +
-                        specular(&normal1, &hitpoint1,&light1, &ray1, 0.9, 200.0);
+                            specular(&normal1, &hitpoint1,&light1, &ray1, 0.9, 200.0);
 
         assert_eq!(color1, Color::new(255.0 * 1.9, 255.0 * 1.9, 255.0 * 1.9));
 
@@ -103,7 +105,7 @@ mod tests {
         let light2 = PointLight::new(1.0, Vec::new([0.0, 0.0, -10.0]));
         let ray2 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, -f64::sqrt(2.0) / 2.0, f64::sqrt(2.0) / 2.0]));
         let color2 =    diffuse(obj_color1, &normal1, &light2, &hitpoint1, 0.1, 0.9) +
-                                specular(&normal1, &hitpoint1,&light2, &ray2, 0.9, 200.0);
+                               specular(&normal1, &hitpoint1,&light2, &ray2, 0.9, 200.0);
 
         assert_eq!(color2, Color::new(255.0, 255.0, 255.0));
 
@@ -111,28 +113,24 @@ mod tests {
         let light3 = PointLight::new(1.0, Vec::new([0.0, 10.0, -10.0]));
         let ray3 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
         let color3 =    diffuse(obj_color1, &normal1, &light3, &hitpoint1, 0.1, 0.9,) +
-                                specular(&normal1,&hitpoint1,&light3, &ray3, 0.9, 200.0);
+                               specular(&normal1,&hitpoint1,&light3, &ray3, 0.9, 200.0);
 
         assert_eq!(color3, Color::new(187.781, 187.781, 187.781));
 
 
-        // let light4 = PointLight::new(1.0, Vec::new([0.0, 10.0, -10.0]));
-        // let ray4 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, f64::sqrt(2.0) / 2.0, f64::sqrt(2.0) / 2.0]));
-        // let color4 = blinn_phong_shading(Color::new(255.0, 255.0, 255.0), 
-        //                                 &Vec::new([0.0, 0.0, -1.0]), 
-        //                              &Vec::new([0.0, 0.0, 0.0]), 
-        //                                        &light4, &ray4, 0.1, 0.9, 0.9, 200.0);
+        let light4 = PointLight::new(1.0, Vec::new([0.0, 10.0, -10.0]));
+        let ray4 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, f64::sqrt(2.0) / 2.0, f64::sqrt(2.0) / 2.0]));
+        let color4 = diffuse(obj_color1, &normal1, &light4, &hitpoint1, 0.1, 0.9) +
+                            specular(&normal1, &hitpoint1, &light4, &ray4, 0.9, 200.0);
 
-        // assert_eq!(color4, Color::new(417.281, 417.281, 417.281));
+        assert_eq!(color4, Color::new(417.281, 417.281, 417.281));
 
 
-        // let light5 = PointLight::new(1.0, Vec::new([0.0, 0.0, 10.0]));
-        // let ray5 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
-        // let color5 = blinn_phong_shading(Color::new(255.0, 255.0, 255.0), 
-        //                                 &Vec::new([0.0, 0.0, -1.0]), 
-        //                              &Vec::new([0.0, 0.0, 0.0]), 
-        //                                        &light5, &ray5, 0.1, 0.9, 0.9, 200.0);
+        let light5 = PointLight::new(1.0, Vec::new([0.0, 0.0, 10.0]));
+        let ray5 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
+        let color5 = diffuse(obj_color1, &normal1, &light5, &hitpoint1, 0.1, 0.9) +
+                            specular(&normal1, &hitpoint1, &light5, &ray5, 0.9, 200.0);
 
-        // assert_eq!(color5, Color::new(25.5, 25.5, 25.5));
+        assert_eq!(color5, Color::new(25.5, 25.5, 25.5));
     }
 }

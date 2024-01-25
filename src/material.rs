@@ -6,7 +6,7 @@ use std::option::Option;
 #[derive(Debug, Clone, Copy)]
 pub enum Material {
     Matte(Color, f64, f64), //Diffuse
-    Plastic(Color, f64, f64, f64, f64), //Blinn-Phong, specular highlights
+    Plastic(Color, f64, f64, f64, f64), //diffuse color, ambient coeff, diffuse,specular, shininess
     Metal (Color), //Reflect + Tint
     Mirror (Color, f64, f64, f64, f64), // diffuse color, diffuse coeff, reflective, specular, shininess
     Glass, // Reflect + Refract
