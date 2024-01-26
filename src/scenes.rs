@@ -12,14 +12,14 @@ use crate::plane::{Plane, self};
 
 pub fn scene1() -> World {
     // let material1 = Rc::new(Material::Matte(Color::new(100.0, 51.0, 255.0), 0.1, 0.9));
-    let material1 = Rc::new(Material::Mirror(Color::new(255.0, 255.0, 255.05), 0.0,  0.85, 0.95, 300.0));
+    let material1 = Rc::new(Material::Mirror(Color::new(255.0, 255.0, 255.05), 0.0, 0.0,  0.85, 0.95, 300.0));
     let mut sphere1: Box<dyn Shape> = Box::new(Sphere::new(1.0, Some(material1)));
 
     sphere1.set_transform(translation(1.0, 1.8, 7.0) * scale(1.0, 1.0, 1.0));
 
     //let material2 = Rc::new(Material::Matte(Color::new(255.0, 51.0, 255.0), 0.1, 0.9));
     // let material2 = Rc::new(Material::Plastic(Color::new(255.0, 0.0, 0.0), 0.1, 0.9, 0.4, 10.0));
-    let material2 = Rc::new(Material::Mirror(Color::new(255.0, 255.0, 255.0), 0.0,  0.85, 0.95, 300.0));
+    let material2 = Rc::new(Material::Mirror(Color::new(255.0, 255.0, 255.0), 0.0, 0.0,  0.85, 0.95, 300.0));
     let mut sphere2: Box<dyn Shape> = Box::new(Sphere::new(1.0, Some(material2)));
     sphere2.set_transform(translation(-1.0, 0.0, 5.0) * scale(1.0, 1.0, 1.0));
 

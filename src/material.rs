@@ -7,10 +7,7 @@ use std::option::Option;
 pub enum Material {
     Matte(Color, f64, f64), //Diffuse
     Plastic(Color, f64, f64, f64, f64), //diffuse color, ambient coeff, diffuse,specular, shininess
-    Metal (Color), //Reflect + Tint
-    Mirror (Color, f64, f64, f64, f64), // diffuse color, diffuse coeff, reflective, specular, shininess
-    Glass, // Reflect + Refract
-    PartiallyReflective(Color, f64)
+    Mirror (Color, f64, f64, f64, f64, f64), // diffuse color, ambient coeff, diffuse coeff, reflective, specular, shininess
 }
 impl Material {
     pub fn default_matte() -> Material {

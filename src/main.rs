@@ -29,9 +29,10 @@ use crate::canvas::Canvas;
 use crate::color::Color;
 use crate::world::{trace};
 use crate::scenes::scene1;
+use crate::instance::Instance;
 
-const WIDTH: i64 = 1000 as i64;
-const HEIGHT: i64 = 500 as i64;
+const WIDTH: i64 = 4000 as i64;
+const HEIGHT: i64 = 2000 as i64;
 const NUM_SAMPLES: i8 = 20; // super-sampling
 const MAX_DEPTH: i8 = 10;
 
@@ -52,20 +53,20 @@ pub fn main() {
             print!("Breakpoint here1");
            }
 
-            // let mut color = Color::new(0.0, 0.0, 0.0);
-            // for i in 0..NUM_SAMPLES {
-            //     let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOn);
+            let mut color = Color::new(0.0, 0.0, 0.0);
+            for i in 0..NUM_SAMPLES {
+                let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOn);
             
-            //     color += trace(&r, &world, MAX_DEPTH, 0.0);
-            // }
-            // color /= (NUM_SAMPLES as f64);
+                color += trace(&r, &world, MAX_DEPTH, 0.0);
+            }
+            color /= (NUM_SAMPLES as f64);
 
 
-            let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOff);
+            // let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOff);
           
-            // println!("Ray: {:?}",r);
+            // // println!("Ray: {:?}",r);
             
-            let color = trace(&r, &world, MAX_DEPTH, 0.0);
+            // let color = trace(&r, &world, MAX_DEPTH, 0.0);
             
             // println!("Color: {:?}",color);
             // println!("E===========================");
