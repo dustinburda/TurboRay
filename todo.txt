@@ -16,19 +16,9 @@ Blinn-Phong Shading [Plastic Material] --------------------- [DONE / FLIP NORMAL
 Positionable Projective Camera ----------------------------- [DONE]                              
 
 
-TODAY:
-       
 
-7:00
-    - Rework Shading Model [RIGHT NOW]
-        - don't prematurely color black when object lies in Shadow (for one light)
-        - add ambient light by default
-    
-        - multiple lights:
-            for light in lights ... 
-                specular, diffuse, etc
-    - Multiple Point Lights (add specular intensity, diffuse intensity, light color)
-8:30
+    USE BEYOND COMPARE for RT Challenge, TinyRT
+======================================================================================================
     - Instances
         -fix normal check in shape (do I even flip the normal? I think I'm flipping ray dir)
         - plane not showing up in the back 
@@ -37,19 +27,18 @@ TODAY:
 
         (flipping normal needs to occur before transformation by M-1 T, not in reflection)
     - Planes, test transformations
-10:00
+======================================================================================================
     - Positionable Camera --> RT Ground Up (8, 9)
     - Depth of Field -> RT Ground Up + RT One Weekend (6, 10)
-12:00
+
     - Reflections --> RT Challenge + Scratch Pixel
     - Partial Reflections
     - Glossy Reflections (Create Orthnormal basis around normal, perturb normal)
 
+    - Refraction
+    - Procedural Textures --> Texture coordinates for each shape (at least for spheres and planes)
 
-Friday:
-3 hours:
-    Refraction
-    Procedural Textures --> Texture coordinates for each shape (at least for spheres and planes)
+Saturday:
 4 hours: 
     Boxes --> Scratch Pixel + RT Challenge
     BVH --> Bounding Boxes should apply to instances
@@ -66,7 +55,7 @@ Friday:
 
 
 
-Saturday:
+Sunday:
 2 hours:
     Triangles --> Scratch Pixel + RT Challenge
 2 hours:    
@@ -77,11 +66,10 @@ Saturday:
     Gourard Shading
     Phong Shading
 
-Sunday:
+Monday:
 10 hours
     Image Textures --> May have to add filtering
     Noise Textures
-    Normal Maps
     Environment Maps
     Area Lights + Soft Shadows
 

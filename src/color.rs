@@ -1,11 +1,16 @@
 use std::{ops::{Add, AddAssign, Mul, MulAssign, Div, DivAssign}, rc::Rc, f32::consts::E};
 
+
+
+
 // TODO: turn this into a union
 #[derive(Copy, Debug)]
 pub struct Color {
     data: [f64; 3]
 }
 
+pub const BLACK: Color = Color { data: [0.0; 3] };
+pub const WHITE: Color = Color { data: [255.0; 3]};
 
 const EPSILON: f64 = 0.0001;
 fn float_equal(x: f64, y: f64) -> bool {
