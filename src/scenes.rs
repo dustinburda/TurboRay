@@ -24,21 +24,21 @@ pub fn scene1() -> World {
     sphere2.set_transform(translation(-1.0, 0.0, 5.0) * scale(1.0, 1.0, 1.0));
 
     // let material3 = Rc::new(Material::Matte(Color::new(255.0, 51.0, 251.0), 0.1, 0.9));
-    let material3 = Rc::new(Material::Plastic(Color::new(255.0, 51.0, 255.0), 0.1, 0.9, 0.4, 10.0));
+    let material3 = Rc::new(Material::Plastic(Color::new(255.0, 51.0, 255.0), 0.1, 0.9, 0.0, 0.4, 10.0));
     let mut sphere3: Box<dyn Shape> = Box::new(Sphere::new(1.0, Some(material3)));
     sphere3.set_transform(translation(7.0, 0.0, 17.0));
 
 
-    let material4 = Rc::new(Material::Matte(Color::new(0.0, 0.0, 255.0), 0.18, 0.9));
+    let material4 = Rc::new(Material::Matte(Color::new(0.0, 0.0, 255.0), 0.18, 0.9, 0.0, 0.0 , 0.0));
     let mut plane1: Box<dyn Shape> = Box::new(Plane::new(Vec::new([0.0, -1.0, 0.0]), Vec::new([0.0, 1.0, 0.0]), Some(material4)));
 
-    let material5 = Rc::new(Material::Matte(Color::new(255.0, 0.0, 0.0), 0.18, 0.9));
+    let material5 = Rc::new(Material::Matte(Color::new(255.0, 0.0, 0.0), 0.18, 0.9, 0.0, 0.0 , 0.0));
     let mut plane2: Box<dyn Shape> = Box::new(Plane::new(Vec::new([-4.0, 0.0, 0.0]), Vec::new([1.0, 0.0, 0.0]), Some(material5)));
 
-    let material6 = Rc::new(Material::Matte(Color::new(125.0, 125.0, 125.0), 0.18, 0.9));
+    let material6 = Rc::new(Material::Matte(Color::new(125.0, 125.0, 125.0), 0.18, 0.9, 0.0, 0.0 , 0.0));
     let mut plane3: Box<dyn Shape> = Box::new(Plane::new(Vec::new([0.0, 0.0, 20.0]), Vec::new([0.0, 0.0, -1.0]), Some(material6)));
 
-    let material7 = Rc::new(Material::Matte(Color::new(125.0, 125.0, 125.0), 0.18, 0.9));
+    let material7 = Rc::new(Material::Matte(Color::new(125.0, 125.0, 125.0), 0.18, 0.9, 0.0, 0.0 , 0.0));
     let mut plane4: Box<dyn Shape> = Box::new(Plane::new(Vec::new([0.0, 0.0, -20.0]), Vec::new([0.0, 0.0, -1.0]), Some(material7)));
 
 

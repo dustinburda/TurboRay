@@ -5,17 +5,18 @@ use std::option::Option;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Material {
-    Matte(Color, f64, f64), //Diffuse
-    Plastic(Color, f64, f64, f64, f64), //diffuse color, ambient coeff, diffuse,specular, shininess
-    Mirror (Color, f64, f64, f64, f64, f64), // diffuse color, ambient coeff, diffuse coeff, reflective, specular, shininess
+    Matte(Color, f64, f64, f64, f64, f64),  //diffuse color, ambient coeff, diffuse coeff, reflective, specular coeff, shininess
+    Plastic(Color, f64, f64, f64, f64, f64),  //diffuse color, ambient coeff, diffuse coeff,           , specular coeff, shininess
+    Mirror (Color, f64, f64, f64, f64, f64),  //diffuse color, ambient coeff, diffuse coeff, reflective, specular coeff, shininess
+    //diffuse color, ambient coeff, diffuse coeff, specular coeff, shininess, reflective
 }
 impl Material {
     pub fn default_matte() -> Material {
-        Material::Matte(Color::new(255.0, 255.0, 255.0), 0.1, 0.9)
+        Material::Matte(Color::new(255.0, 255.0, 255.0), 0.1, 0.9, 0.0, 0.0, 0.0)
     }
 
     pub fn default_plastic() -> Material{
-        Material::Plastic(Color::new(255.0, 255.0, 255.0), 0.1, 0.9, 0.9, 200.0)
+        Material::Plastic(Color::new(255.0, 255.0, 255.0), 0.1, 0.9, 0.0, 0.9, 200.0)
     }
 }
 
