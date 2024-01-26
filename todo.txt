@@ -23,9 +23,7 @@ TODAY:
     - Rework Shading Model [RIGHT NOW]
         - don't prematurely color black when object lies in Shadow (for one light)
         - add ambient light by default
-
-        - overhaul shading model (diffuse color, diffuse coeff, specular coeff, reflective, shininess)
-        
+    
         - multiple lights:
             for light in lights ... 
                 specular, diffuse, etc

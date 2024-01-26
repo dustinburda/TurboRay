@@ -54,30 +54,30 @@ pub fn trace(r: &Ray, world: &World, max_depth: i8, epsilon: f64) -> Color {
 
         let in_shadow = shadow(&shade_context.hit_point, &world.light, &world);
         let material = (*shade_context.material.unwrap()).clone();
+        //=======================================
+        let (diffuse_color, ka, kd, reflective, ks, shininess) = material.get_properties();
+        let mut diffuse_illumination: f64 = 0.0;
+        let mut specular_illumination: f64 = 0.0;
 
-        let mut illumination: f64 = 0.0;
+        color += diffuse_color * ka;
 
+        // ===== LOOP
         if in_shadow {
-            // TODO: should add ambient light by default
-            color += match material {
-                Material::Matte(color, ka, kd, reflective, ks, shininess) => color * ka,
-                Material::Plastic(color, ka, kd, reflective, ks, shininess) => color * ka,
-                Material::Mirror(color, ka, kd, reflective, ks, shininess) => color * ka + reflection(r, reflective, &shade_context.hit_point, &shade_context.normal, &world, max_depth -1)
-                + Color::new(255.0, 255.0, 255.0) * crate::shading::specular( &shade_context.normal, &shade_context.hit_point, &world.light, &r, ks, shininess),
-                _ => Color::new(0.0, 255.0, 0.0)
-            }
+            // continue
         } else {
-            // let material = (*shade_context.material.unwrap()).clone();
-
-            color = match material {
-                Material::Matte(color, ka, kd, reflective, ks, shineness) => color * ka + color * crate::shading::diffuse(color, &shade_context.normal, &world.light, &shade_context.hit_point, ka, kd),
-                Material::Plastic(color, ka, kd, reflective,ks, shininess) => color * ka + color * crate::shading::diffuse(color, &shade_context.normal, &world.light, &shade_context.hit_point, ka, kd) 
-                                                                                           + Color::new(255.0, 255.0, 255.0) *crate::shading::specular( &shade_context.normal, &shade_context.hit_point, &world.light, &r, ks, shininess),
-                Material::Mirror(color, ka, kd, reflective, ks, shininess) => reflection(r, reflective, &shade_context.hit_point, &shade_context.normal, &world, max_depth -1)
-                                                                                           + Color::new(255.0, 255.0, 255.0) * crate::shading::specular( &shade_context.normal, &shade_context.hit_point, &world.light, &r, ks, shininess),
-                _ => Color::new(0.0, 255.0, 0.0)
+            if(kd > 0.0) {
+                color += diffuse_color * crate::shading::diffuse(color, &shade_context.normal, &world.light, &shade_context.hit_point, ka, kd)
             }
+            if(ks > 0.0) {
+                color += Color::new(255.0, 255.0, 255.0) * crate::shading::specular( &shade_context.normal, &shade_context.hit_point, &world.light, &r, ks, shininess);
+            }
+        }
+        // ==== LOOP
+
+        if (reflective > 0.0) {
+            color += reflection(r, reflective, &shade_context.hit_point, &shade_context.normal, &world, max_depth -1);
         }    
+        //=======================================
     } else {
         color = Color::new(0.0, 0.0 , 0.0);
     }
