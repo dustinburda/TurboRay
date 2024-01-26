@@ -8,14 +8,14 @@ use crate::light::{PointLight, self};
 
 pub struct World {
     shapes: Vec<Box<dyn Shape>>,
-    light: PointLight
+    lights: Vec<PointLight>
 }
 
 impl World {
     pub fn new() -> World {
         World {
             shapes: vec![],
-            light: PointLight::default()
+            lights: vec![]
         }
     }
 
@@ -34,7 +34,7 @@ impl World {
     }
 
     pub fn add_light(&mut self, light: PointLight) {
-        self.light = light;
+        self.lights.push(light);
     }
 }
 
@@ -51,30 +51,30 @@ pub fn trace(r: &Ray, world: &World, max_depth: i8, epsilon: f64) -> Color {
     let mut color: Color = Color::new(0.0, 0.0, 0.0);
 
     if hit {
-
-        let in_shadow = shadow(&shade_context.hit_point, &world.light, &world);
         let material = (*shade_context.material.unwrap()).clone();
-        //=======================================
         let (diffuse_color, ka, kd, reflective, ks, shininess) = material.get_properties();
         let mut diffuse_illumination: f64 = 0.0;
         let mut specular_illumination: f64 = 0.0;
+        diffuse_illumination += ka; // should only be added if there is only one light
 
-        color += diffuse_color * ka;
+        for light in &world.lights {
+            let in_shadow = shadow(&shade_context.hit_point, light, &world);
 
-        // ===== LOOP
-        if in_shadow {
-            // continue
-        } else {
-            if(kd > 0.0) {
-                color += diffuse_color * crate::shading::diffuse(color, &shade_context.normal, &world.light, &shade_context.hit_point, ka, kd)
+            if in_shadow {
+               continue;
+            } else {
+                if kd > 0.0 {
+                    diffuse_illumination += crate::shading::diffuse( &shade_context.normal, light, &shade_context.hit_point, kd);
+                }
+                if ks > 0.0 {
+                    specular_illumination +=  crate::shading::specular( &shade_context.normal, &shade_context.hit_point, light, &r, ks, shininess);
+                }
             }
-            if(ks > 0.0) {
-                color += Color::new(255.0, 255.0, 255.0) * crate::shading::specular( &shade_context.normal, &shade_context.hit_point, &world.light, &r, ks, shininess);
-            }
-        }
-        // ==== LOOP
+            // ==== LOOP
+        }       
 
-        if (reflective > 0.0) {
+        color += diffuse_color * diffuse_illumination + Color::new(255.0, 255.0, 255.0) * specular_illumination;
+        if reflective > 0.0 {
             color += reflection(r, reflective, &shade_context.hit_point, &shade_context.normal, &world, max_depth -1);
         }    
         //=======================================

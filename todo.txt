@@ -27,7 +27,7 @@ TODAY:
         - multiple lights:
             for light in lights ... 
                 specular, diffuse, etc
-    - Multiple Point Lights (add specular intensity, diffuse intensity)
+    - Multiple Point Lights (add specular intensity, diffuse intensity, light color)
 8:30
     - Instances
         -fix normal check in shape (do I even flip the normal? I think I'm flipping ray dir)

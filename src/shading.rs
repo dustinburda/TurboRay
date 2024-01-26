@@ -6,7 +6,7 @@ use crate::vec::{Vec, Vec3, dot, reflect};
 use crate::world::{World, trace};
 
 
-pub fn diffuse(color: Color, normal: &Vec3, light: &PointLight, hit_point: &Vec3, ambient: f64, diffuse: f64) -> f64 {
+pub fn diffuse(normal: &Vec3, light: &PointLight, hit_point: &Vec3, diffuse: f64) -> f64 {
     let light_vec = light.pos() - *hit_point;
 
 
@@ -95,7 +95,7 @@ mod tests {
         let obj_color1 = Color::new(255.0, 255.0, 255.0);
         let normal1 = Vec::new([0.0, 0.0, -1.0]);
         let hitpoint1 = Vec::new([0.0, 0.0, 0.0]);
-        let color1 = obj_color1 * 0.1 + obj_color1 * diffuse(obj_color1, &normal1, &light1, &hitpoint1, 0.1, 0.9) +
+        let color1 = obj_color1 * 0.1 + obj_color1 * diffuse( &normal1, &light1, &hitpoint1, 0.9) +
                             Color::new(255.0, 255.0, 255.0) * specular(&normal1, &hitpoint1,&light1, &ray1, 0.9, 200.0);
 
         assert_eq!(color1, Color::new(255.0 * 1.9, 255.0 * 1.9, 255.0 * 1.9));
@@ -103,7 +103,7 @@ mod tests {
 
         let light2 = PointLight::new(1.0, Vec::new([0.0, 0.0, -10.0]));
         let ray2 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, -f64::sqrt(2.0) / 2.0, f64::sqrt(2.0) / 2.0]));
-        let color2 =  obj_color1 * 0.1 +  obj_color1 * diffuse(obj_color1, &normal1, &light2, &hitpoint1, 0.1, 0.9) +
+        let color2 =  obj_color1 * 0.1 +  obj_color1 * diffuse( &normal1, &light2, &hitpoint1, 0.9) +
                              Color::new(255.0, 255.0, 255.0) * specular(&normal1, &hitpoint1,&light2, &ray2, 0.9, 200.0);
 
         assert_eq!(color2, Color::new(255.0, 255.0, 255.0));
@@ -111,7 +111,7 @@ mod tests {
 
         let light3 = PointLight::new(1.0, Vec::new([0.0, 10.0, -10.0]));
         let ray3 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
-        let color3 =  obj_color1 * 0.1  + obj_color1 *  diffuse(obj_color1, &normal1, &light3, &hitpoint1, 0.1, 0.9,) +
+        let color3 =  obj_color1 * 0.1  + obj_color1 *  diffuse( &normal1, &light3, &hitpoint1, 0.9,) +
                     Color::new(255.0, 255.0, 255.0) * specular(&normal1,&hitpoint1,&light3, &ray3, 0.9, 200.0);
 
         assert_eq!(color3, Color::new(187.781, 187.781, 187.781));
@@ -119,7 +119,7 @@ mod tests {
 
         let light4 = PointLight::new(1.0, Vec::new([0.0, 10.0, -10.0]));
         let ray4 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, f64::sqrt(2.0) / 2.0, f64::sqrt(2.0) / 2.0]));
-        let color4 = obj_color1 * 0.1 +  obj_color1 * diffuse(obj_color1, &normal1, &light4, &hitpoint1, 0.1, 0.9) +
+        let color4 = obj_color1 * 0.1 +  obj_color1 * diffuse( &normal1, &light4, &hitpoint1,  0.9) +
                         Color::new(255.0, 255.0, 255.0) * specular(&normal1, &hitpoint1, &light4, &ray4, 0.9, 200.0);
 
         assert_eq!(color4, Color::new(417.281, 417.281, 417.281));
@@ -127,7 +127,7 @@ mod tests {
 
         let light5 = PointLight::new(1.0, Vec::new([0.0, 0.0, 10.0]));
         let ray5 = Ray::new(Vec::new([0.0, 0.0, 0.0]), Vec::new([0.0, 0.0, 1.0]));
-        let color5 = obj_color1 * 0.1 + obj_color1 * diffuse(obj_color1, &normal1, &light5, &hitpoint1, 0.1, 0.9) +
+        let color5 = obj_color1 * 0.1 + obj_color1 * diffuse( &normal1, &light5, &hitpoint1, 0.9) +
                             Color::new(255.0, 255.0, 255.0) *  specular(&normal1, &hitpoint1, &light5, &ray5, 0.9, 200.0);
 
         assert_eq!(color5, Color::new(25.5, 25.5, 25.5));
