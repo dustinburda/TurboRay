@@ -18,6 +18,7 @@ mod instance;
 mod light;
 mod triangle;
 mod plane;
+mod bvh;
 
 use std::i8::MAX;
 

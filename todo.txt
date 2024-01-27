@@ -19,6 +19,7 @@ Positionable Projective Camera ----------------------------- [DONE]
 
     USE BEYOND COMPARE for RT Challenge, TinyRT
 ======================================================================================================
+Saturday
     - Instances
         -fix normal check in shape (do I even flip the normal? I think I'm flipping ray dir)
         - plane not showing up in the back 
@@ -26,52 +27,56 @@ Positionable Projective Camera ----------------------------- [DONE]
         - instances (should flip normal)
 
         (flipping normal needs to occur before transformation by M-1 T, not in reflection)
+
     - Planes, test transformations
-======================================================================================================
+    - Cones and Cylinders
+    - Triangles --> Scratch Pixel + RT Challenge
+    - Boxes --> Scratch Pixel + RT Challenge   
+
+
     - Positionable Camera --> RT Ground Up (8, 9)
     - Depth of Field -> RT Ground Up + RT One Weekend (6, 10)
+    - Motion Blur
 
     - Reflections --> RT Challenge + Scratch Pixel
     - Partial Reflections
     - Glossy Reflections (Create Orthnormal basis around normal, perturb normal)
 
     - Refraction
-    - Procedural Textures --> Texture coordinates for each shape (at least for spheres and planes)
-
-Saturday:
-4 hours: 
-    Boxes --> Scratch Pixel + RT Challenge
-    BVH --> Bounding Boxes should apply to instances
-1 hours:
-    Cones and Cylinders
-    Disks + Quads
-2 hours: 
-    Concurrency --> Rayon Crate
-    Create premade materials (Rubber, Ivory, Metal, Brushed Metal, Glass, etc)
-    Fix Anti-Aliasing (proper sampling)
-
-
-
-
-
 
 Sunday:
-2 hours:
-    Triangles --> Scratch Pixel + RT Challenge
-2 hours:    
+    - Procedural Textures --> Texture coordinates for each shape (at least for spheres and planes)
+    - Image Textures --> May have to add filtering
+    - Disks + Quads
+    - Fix Anti-Aliasing (proper sampling)
+    
+    Concurrency --> Rayon Crate
+    Create premade materials (Rubber, Ivory, Metal, Brushed Metal, Glass, etc)
+    
+
+Monday:
+    BVH --> Bounding Boxes should apply to instances
+
+Tuesday: 
     OBJ Loader
     Meshes
-2 hours:
     Flat Shading
     Gourard Shading
     Phong Shading
 
-Monday:
-10 hours
-    Image Textures --> May have to add filtering
+Wednesday: (Textures):
     Noise Textures
+    Normal Maps
     Environment Maps
+
+Thursday: (More Lights):
     Area Lights + Soft Shadows
+    Spot Lights
+
+Friday:
+    CSG
+    Motion Blur
+    Bump Maps
 
 
 DISTRIBUTED RENDERING
@@ -102,7 +107,7 @@ TEXTURES
 Procedural Textures ---------------------------------------- [DONE]                                           
 Noise Textures --------------------------------------------- [IN-PROGRESS]
 Image Textures --------------------------------------------- [IN-PROGRESS]                                                                                            
-Normal Maps                                    
+Normal Maps ------------------------------------------------ [IN-PROGRESS]                                   
 Environment Maps ------------------------------------------- [IN-PROGRESS] 
 
 MESHES
@@ -116,7 +121,7 @@ Phong-Shading ---------------------------------------------- [IN-PROGRESS]
 
 MISC
 Volumes
-Spot Lights                                                  
-Motion Blur                                                  
+Spot Lights ------------------------------------------------ [IN PROGRESS]                                                 
+Motion Blur ------------------------------------------------ [IN PROGRESS]                                                  
 Concurrency ------------------------------------------------ [IN-PROGRESS]                                                    
-CSG                                                          
+CSG -------------------------------------------------------- [IN PROGRESS]                                                          

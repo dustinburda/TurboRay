@@ -69,15 +69,7 @@ impl Shape for Sphere {
         assert_eq!(object_point, r.at(hit_time));
 
         shade_context.hit_time = hit_time;
-        // let mut normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();
-        // shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();shade_context.normal = ((self.world_to_obj).t() * self.normal_at(&object_point).homogenize_vec()).dehomogenize_normal().normal();
-        // normal[3] = 0.0;
-        // shade_context.normal = normal.dehomogenize().normal();
-
         shade_context.normal = self.normal_at(&world_point);
-
-
-
         shade_context.material = self.material_at(&object_point);
         shade_context.hit_point = world_point;
 
