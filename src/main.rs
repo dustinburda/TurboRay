@@ -46,7 +46,7 @@ pub fn main() {
 
     // println!("BEGIN=============");
     for y in 0..(HEIGHT as i64) {
-      print!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
+      eprint!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
         for x in 0..(WIDTH as i64) {
            //  println!("B===========================");
 

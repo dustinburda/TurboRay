@@ -19,65 +19,75 @@ Positionable Projective Camera ----------------------------- [DONE]
 
     USE BEYOND COMPARE for RT Challenge, TinyRT
 ======================================================================================================
-Saturday
-    - Instances
+3
+T(Shapes + Instances)
+    - Instances 
         -fix normal check in shape (do I even flip the normal? I think I'm flipping ray dir)
         - plane not showing up in the back 
         - figure out why plane in back is not rendering
         - instances (should flip normal)
 
         (flipping normal needs to occur before transformation by M-1 T, not in reflection)
-
     - Planes, test transformations
-    - Cones and Cylinders
-    - Triangles --> Scratch Pixel + RT Challenge
-    - Boxes --> Scratch Pixel + RT Challenge   
 
+    - (3)Refraction
+======================================================================================================= 
+4
+    - (1)Cones and Cylinders + Disks + Quads
+    - Triangles --> Scratch Pixel + RT Challenge
+    - Boxes --> Scratch Pixel + RT Challenge
 
     - Positionable Camera --> RT Ground Up (8, 9)
-    - Depth of Field -> RT Ground Up + RT One Weekend (6, 10)
-    - Motion Blur
+
+======================================================================================================
+5
+(Camera + Light Transport):
+
 
     - Reflections --> RT Challenge + Scratch Pixel
     - Partial Reflections
-    - Glossy Reflections (Create Orthnormal basis around normal, perturb normal)
+    - (9)Glossy Reflections (Create Orthnormal basis around normal, perturb normal)
+    - (8)Depth of Field -> RT Ground Up + RT One Weekend (6, 10)
 
-    - Refraction
-
-Sunday:
+6
+(Textures):
     - Procedural Textures --> Texture coordinates for each shape (at least for spheres and planes)
-    - Image Textures --> May have to add filtering
-    - Disks + Quads
-    - Fix Anti-Aliasing (proper sampling)
+    - (4)Image Textures --> May have to add filtering
+    - (6)Fix Anti-Aliasing (proper sampling)
     
-    Concurrency --> Rayon Crate
     Create premade materials (Rubber, Ivory, Metal, Brushed Metal, Glass, etc)
     
-
-Monday:
+7,8
+(Acceleration Structure):
     BVH --> Bounding Boxes should apply to instances
+    Motion Blur
+    Concurrency --> Rayon Crate
 
-Tuesday: 
+9
+(Meshes): 
     OBJ Loader
     Meshes
-    Flat Shading
-    Gourard Shading
-    Phong Shading
+    Flat, Gourard Shading
 
-Wednesday: (Textures):
+10
+(Textures):
     Noise Textures
-    Normal Maps
+    (5) Normal Maps
     Environment Maps
+    
 
-Thursday: (More Lights):
-    Area Lights + Soft Shadows
+11
+M(Misc):
+    (7)Area Lights + Soft Shadows
+    (2)CSG
+
+
+Optional Extras
     Spot Lights
-
-Friday:
-    CSG
+    Torus
     Motion Blur
-    Bump Maps
-
+    Ambient Occlusion
+    Basic Global Illumination
 
 DISTRIBUTED RENDERING
 Anti-Aliasing via supersampling ---------------------------- [DONE]
@@ -98,9 +108,9 @@ Bounding Volume Hierarchy ---------------------------------- [IN-PROGRESS]
 
 LIGHT TRANSPORT
 Reflection ------------------------------------------------- [DONE]                                                   
-Refraction ------------------------------------------------- [DONE]                                                      
-Realistic Refraction                                         
-Shadows ---------------------------------------------------- [DONE]                                                      
+Refraction ------------------------------------------------- [DONE]                                                                                            
+Shadows ---------------------------------------------------- [DONE]
+Realistic Refraction                                                      
                                                   
 
 TEXTURES
