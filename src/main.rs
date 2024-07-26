@@ -44,37 +44,17 @@ pub fn main() {
 
     let world = scene1();
 
-    // println!("BEGIN=============");
     for y in 0..(HEIGHT as i64) {
       eprint!("\rNumber of scanlines remaining: {:?}", HEIGHT - 1 - y);
         for x in 0..(WIDTH as i64) {
-           //  println!("B===========================");
-
-           if y == 0 && x == 8 {
-            print!("Breakpoint here1");
-           }
-
-            // let mut color = Color::new(0.0, 0.0, 0.0);
-            // for i in 0..NUM_SAMPLES {
-            //     let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOn);
-            
-            //     color += trace(&r, &world, MAX_DEPTH, 0.0);
-            // }
-            // color /= (NUM_SAMPLES as f64);
-
-
             let r = cam.cast_ray(x as f64, y as f64, AliasMode::AntiAliasOff);
-          
-            // println!("Ray: {:?}",r);
             
             let color = trace(&r, &world, MAX_DEPTH, 0.0);
             
-            // println!("Color: {:?}",color);
-            // println!("E===========================");
             canv.set_pixel_at(x, y, color);
         } 
     }
-    print!("\n");
+    
     canv.flush_ppm(String::from("rust_image.ppm"));
     
 }
